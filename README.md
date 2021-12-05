@@ -6,4 +6,5 @@ Python Apps and Snippets triggered via API
 
 ```
 pip3 install fastapi
+pip3 install "uvicorn[standard]"
 ```
