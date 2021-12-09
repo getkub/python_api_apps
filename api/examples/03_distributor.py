@@ -17,10 +17,16 @@ app_fn="app_00_fn"
 
 @app.get("/")
 def read_root():
+    """
+    Displays main page
+    """
     return (my_instance.run_distributor(app_to_run,app_fn))
 
 @app.get("/apps/{item_id}")
 def read_item(item_id: str):
+    """
+    Displays apps page. Pass item_id
+    """
     app_to_run=item_id
     app_fn=item_id+"_fn"
     return (my_instance.run_distributor(app_to_run,app_fn))
