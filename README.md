@@ -5,6 +5,5 @@ Python Apps and Snippets triggered via API
 ## Pre-reqs
 
 ```
-pip3 install fastapi
-pip3 install "uvicorn[standard]"
+pip3 install -r requirements.txt
 ```
