@@ -6,17 +6,17 @@ sys.path.insert(0,'../..')
 from importlib import import_module
 from fastapi.templating import Jinja2Templates
 
-from python_apps.p06_gui import main
+from python_apps.p07_react_gui import main
 
 app = FastAPI()
-#p06_dir="../python_apps/p06_gui"
+#p06_dir="../python_apps/p07_react_gui"
 templates_dir='templates'
 static_dir='/static'
 #print(static_dir)
 app.mount(static_dir, StaticFiles(directory="static"), name="static")
 
 # Creates new instance.
-my_instance = main.p06_gui()
+my_instance = main.p07_react_gui()
 templates = Jinja2Templates(directory=templates_dir)
 
 # Defaults
@@ -28,7 +28,7 @@ def read_root(request: Request):
     """
     Displays main page
     """
-    return templates.TemplateResponse("p06_main.html", {"request": request})
+    return templates.TemplateResponse("p07_main.html", {"request": request})
 
 
-# uvicorn 06_gui:app --reload
+# uvicorn 07_react_gui:app --reload
