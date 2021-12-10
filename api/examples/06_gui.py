@@ -12,7 +12,7 @@ app = FastAPI()
 #p06_dir="../python_apps/p06_gui"
 templates_dir='templates'
 static_dir='/static'
-print(static_dir)
+#print(static_dir)
 app.mount(static_dir, StaticFiles(directory="static"), name="static")
 
 # Creates new instance.

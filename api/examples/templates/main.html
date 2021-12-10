@@ -4,34 +4,28 @@
 
 <h2>Main Page</h2>
 
-<form method="get">
-
-<button type="submit" class="ui button primary">Filter</button>
-
-</form>
-
-<button id="add_symbol" class="ui button secondary">Add Symbols</button>
-
-
-<div class="ui modal">
-    <i class="close icon"></i>
-    <div class="header">
-      Add Stocks
-    </div>
-    <div class="content">
-        <div class="ui form">
-            <div class="field">
-              <label>Symbols</label>
-              <textarea id="symbols"></textarea>
-            </div>
-          </div>
-    </div>
-    <div class="actions">
-      <div id="save" class="ui positive right labeled icon button">
-        Add Symbols
-        <i class="plus icon"></i>
-      </div>
-    </div>
-  </div>
-
+  <table class="ui celled table">
+    <thead>
+      <tr><th>AppName</th>
+      <th>Link</th>
+      <th>Summary</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td>Get CSV</td>
+        <td><button class="ui primary button">Link</button></td>
+        <td>To View CSV entries</td>
+      </tr>
+      <tr>
+        <td>Update Entry</td>
+        <td><button class="ui orange button">Link</button></td>
+        <td>To Update CSV entries</td>
+      </tr>
+      <tr>
+        <td>Delete Entry</td>
+        <td><button class="ui negative button">Link</button></td>
+        <td>To Delete CSV entries</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock %}
