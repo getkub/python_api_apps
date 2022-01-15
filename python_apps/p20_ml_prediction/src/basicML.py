@@ -34,7 +34,7 @@ X = vec.fit_transform(Xfeatures)
 vec.get_feature_names_out()
 
 # Splitting the data
-x_train,x_test,y_train,y_test = train_test_split(X,ylabels,test_size=0.30)
+x_train,x_test,y_train,y_test = train_test_split(X,ylabels,test_size=0.10)
 
 # Building the model & Checking the accuracy of Model
 nb = MultinomialNB()
@@ -42,7 +42,7 @@ nb.fit(x_train,y_train)
 print(nb.score(x_test,y_test))
 
 # Making predictions
-sample1 = ["Yin","Bathsheba","Brittany","Vladmir"]
+sample1 = ["Yin","Bathsheba","Brittany","Vladimir"]
 vector1 = vec.transform(sample1).toarray()
 print(nb.predict(vector1))
 
