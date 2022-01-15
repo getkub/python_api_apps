@@ -44,8 +44,9 @@ print(nb.score(x_test,y_test))
 # Making predictions
 sample1 = ["Yin","Bathsheba","Brittany","Vladmir"]
 vector1 = vec.transform(sample1).toarray()
+print(nb.predict(vector1))
 
 # Saving our model
 nationality_predictor = open("/tmp/naive_bayes.pkl","wb")
-joblib.dump(nb,nationality_predictor)
+joblib.dump((vec, nb),nationality_predictor)
 nationality_predictor.close()

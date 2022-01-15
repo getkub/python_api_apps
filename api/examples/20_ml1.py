@@ -1,5 +1,5 @@
-from typing import Optional
-from fastapi import FastAPI
+from typing import Optional, List
+from fastapi import FastAPI, Request, Query
 import sys
 sys.path.insert(0,'../..')
 from importlib import import_module
@@ -12,26 +12,22 @@ app = FastAPI()
 my_instance = main.p20_ml()
 
 # Defaults
-ml_to_run="ml1"
+sample_data="Lee"
 
 @app.get("/")
 def read_root():
     """
     Displays main page
     """
-    return (my_instance.predict_nationality(ml_to_run))
+    return (my_instance.predict_nationality(sample_data))
 
-@app.get("/{item_id}")
-def read_item(item_id: str):
-    """
-    Displays apps page. Pass item_id
-    """
-    ml_to_run=item_id
-    return (my_instance.predict_nationality(ml_to_run))
+@app.get("/names/")
+async def read_item(request: Request, name: str = Query(None, min_length=3, max_length=50)):
+    if request.method == 'GET':
+        namequery = request.query_params["name"]
+        data = [namequery]
+        result = my_instance.predict_nationality(data)
+        return {"orig_name": data, "prediction": result}
 
 # uvicorn 20_ml1:app --reload
-
-
-# http://127.0.0.1:8000/apps/app_00
-# http://127.0.0.1:8000/apps/app_01
-# http://127.0.0.1:8000/apps/app_02
+# http://127.0.0.1:8000/names/?name=Lee

@@ -1,26 +1,23 @@
 
 import joblib
-import numpy as np
+import numpy
 
 class p20_ml():
 
     def __init__(self):
         super()
 
-    def predict_nationality(self, model_file):
+    def predict_nationality(self, sample_data):
         model_file="/tmp/naive_bayes.pkl"
-        nationality_predictor = open(model_file,"rb")
-        vec = joblib.load(nationality_predictor)
-        nationality_predictor.close()
-        sample1 = ["Yin","Bathsheba","Brittany","Vladmir"]
-        sample1 = [1, 2, 3, 4]
-        sample1 = ["Yin","Bathsheba","Brittany","Vladmir"]
-        my_array = np.array(sample1)
-        # ts = my_array.tostring()
-        # temp = sample1.reshape(len(sample1), 1)
-        # vector1 = vec.transform(sample1).toarray()
-        my_array = my_array.reshape(-1, 1)
-        result = vec.predict(my_array)
+        with open(model_file,"rb") as fin:
+            vec, nb = joblib.load(fin)
+        # sample_data = ["Yin","Bathsheba","Brittany","Lee"]
+        sample_data = numpy.array(sample_data)
+        # vector1 = vec.transform(sample_data).toarray()
+        # sample_data = sample_data.reshape(-1, 1)
+        X_new = vec.transform(sample_data)
+        X_new_preds = nb.predict(X_new)
+        result = "{}".format(X_new_preds)
         return result
 
 
