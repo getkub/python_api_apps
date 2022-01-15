@@ -6,6 +6,7 @@
 import pandas as pd
 import numpy as np
 import joblib
+import pickle
 
 # Scikit-learn packages
 # Naive Bayes algorithm for Classification
@@ -44,7 +45,7 @@ print(nb.score(x_test,y_test))
 sample1 = ["Yin","Bathsheba","Brittany","Vladmir"]
 vector1 = vec.transform(sample1).toarray()
 
-# Saving our model using joblib
-nationality_predictor = open("model/naive_bayes.pkl","wb")
+# Saving our model
+nationality_predictor = open("/tmp/naive_bayes.pkl","wb")
 joblib.dump(nb,nationality_predictor)
 nationality_predictor.close()
