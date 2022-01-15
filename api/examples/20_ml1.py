@@ -26,8 +26,9 @@ async def read_item(request: Request, name: str = Query(None, min_length=3, max_
     if request.method == 'GET':
         namequery = request.query_params["name"]
         data = [namequery]
-        result = my_instance.predict_nationality(data)
-        return {"orig_name": data, "prediction": result}
+        model_file="/tmp/naive_bayes.pkl"
+        result = my_instance.predict_nationality(data, model_file)
+        return {"orig_name": data, "prediction": result, "model_file_used": model_file}
 
 # uvicorn 20_ml1:app --reload
 # http://127.0.0.1:8000/names/?name=Lee

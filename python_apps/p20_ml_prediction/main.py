@@ -7,8 +7,7 @@ class p20_ml():
     def __init__(self):
         super()
 
-    def predict_nationality(self, sample_data):
-        model_file="/tmp/naive_bayes.pkl"
+    def predict_nationality(self, sample_data, model_file):
         with open(model_file,"rb") as fin:
             vec, nb = joblib.load(fin)
         # sample_data = ["Yin","Bathsheba","Brittany","Lee"]
