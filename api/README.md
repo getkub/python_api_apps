@@ -1,10 +1,9 @@
-# API Integration
-Code to integrate and call various python snippets as API
+## Examples directory
 
-
-## How To Run is provided in Each code
-For Example
-```
-uvicorn 03_distributor:app --reload
-# http://127.0.0.1:8000/
-```
+| Example  |  Description | Comments  |
+|---|---|---|
+| 01_helloworld |  Simple example |   |
+| 02_remote_code | Executing code remotely  |   |
+| 03_distributor | Distributing to other modules |   |
+| 06_gui | Simple GUI interface |   |
+| 07_react_gui | Better GUI using reactJS |   |
