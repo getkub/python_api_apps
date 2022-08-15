@@ -4,9 +4,12 @@ from fastapi.staticfiles import StaticFiles
 import sys
 sys.path.insert(0,'../..')
 from importlib import import_module
+import csv
+from flask import make_response
+import io
 from fastapi.templating import Jinja2Templates
 
-from python_apps.p06_gui import main
+from python_apps.p09_csv_gui import main
 
 app = FastAPI()
 templates_dir='templates'
@@ -22,12 +25,8 @@ templates = Jinja2Templates(directory=templates_dir)
 app_to_run="app_00"
 app_fn="app_00_fn"
 
-@app.get("/")
-def read_root(request: Request):
-    """
-    Displays main page
-    """
-    return templates.TemplateResponse("p09_main.html", {"request": request})
+
+# NOT WORKING
 
 
-# uvicorn p09_csv_gui:app --reload
+# uvicorn 09_csv_gui:app --reload

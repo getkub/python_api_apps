@@ -1,5 +1,5 @@
 
-class p06_gui():
+class p09_csv_gui():
 
     def __init__(self):
         super()
@@ -8,11 +8,11 @@ class p06_gui():
         return "MAIN_PAGE"
 
     def app_01(self, app_selector):
-        from python_apps.p06_gui.src.app_01 import run_me_1
+        from python_apps.p09_csv_gui.src.app_01 import run_me_1
         return (run_me_1("app_01_value"))
 
     def app_02(self, app_selector): 
-        from python_apps.p06_gui.src.app_01 import run_me_1
+        from python_apps.p09_csv_gui.src.app_01 import run_me_1
         return (run_me_1("app_02_value"))
 
     def run_distributor(self, app_selector, function_to_execute):
@@ -27,4 +27,4 @@ class p06_gui():
 
 
 if __name__ == "__main__":
-    p06_gui.run()
+    p09_csv_gui.run()
