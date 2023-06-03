@@ -43,7 +43,9 @@ const Form = ({ onSubmit }) => {
           <label htmlFor="email">Email:</label>
           <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
-        <button type="submit" className="form-button">Submit</button>
+        <button className="btn btn-primary submit-button" type="submit">
+            Submit
+        </button>
       </form>
       {isSubmitted && <p className="success-message">Form submitted successfully!</p>}
       {isError && <p className="error-message">An error occurred. Please try again.</p>}

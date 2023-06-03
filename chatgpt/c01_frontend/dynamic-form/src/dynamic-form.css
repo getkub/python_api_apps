@@ -1,60 +1,65 @@
-  .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
-  .app-container h1 {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center; /* Add this line */
-  }
+.form-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .form-container h2 {
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center; /* Add this line */
-  }
-  
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .form-group button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .success-message {
-    margin-top: 20px;
-    color: #28a745;
-    font-weight: bold;
-  }
-  
-  .error-message {
-    margin-top: 20px;
-    color: #dc3545;
-    font-weight: bold;
-  }
-  
+.app-container h1 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #0069d9;
+}
+
+.success-message {
+  margin-top: 20px;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 20px;
+  color: #dc3545;
+  font-weight: bold;
+}
