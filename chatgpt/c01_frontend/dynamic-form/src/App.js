@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Form from './components/Form';
 import SuccessModal from './components/SuccessModal';
+import './dynamic-form.css'; // Import the CSS file
 
 const App = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -15,7 +16,7 @@ const App = () => {
 
   return (
     <Router>
-      <div>
+      <div className="app-container"> {/* Add the app-container class */}
         <h1>Dynamic Form</h1>
         <Switch>
           <Route exact path="/">
