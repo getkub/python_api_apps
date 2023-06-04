@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Form from './components/Form';
 import SuccessModal from './components/SuccessModal';
+import DropdownForm from './components/DropdownForm';
 import './dynamic-form.css'; // Import the CSS file
 
 const App = () => {
@@ -19,6 +20,9 @@ const App = () => {
           </Route>
           <Route exact path="/success">
             <SuccessModal />
+          </Route>
+          <Route exact path="/dropdown">
+            <DropdownForm />
           </Route>
         </Switch>
       </div>

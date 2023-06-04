@@ -23,7 +23,7 @@ const Form = ({ onSubmit }) => {
     try {
       await axios.post('http://localhost:8000/api/submit-form', formData);
       onSubmit();
-      history.push('/success');
+      history.push('/dropdown');
     } catch (error) {
       console.error(error);
     }
