@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import '../dynamic-form.css';
+import { withRouter } from 'react-router-dom';
 
 const Form = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -16,19 +17,18 @@ const Form = ({ onSubmit }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    axios
-      .post('http://localhost:8000/api/submit-form', formData)
-      .then(() => {
-        onSubmit();
-        history.push('/success');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  
+    try {
+      await axios.post('http://localhost:8000/api/submit-form', formData);
+      onSubmit();
+      history.push('/success');
+    } catch (error) {
+      console.error(error);
+    }
   };
+  
 
   return (
     <div className="form-container">
@@ -50,4 +50,4 @@ const Form = ({ onSubmit }) => {
   );
 };
 
-export default Form;
+export default withRouter(Form);
