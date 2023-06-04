@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Form from './components/Form';
-import SuccessModal from './components/SuccessModal';
 import DropdownForm from './components/DropdownForm';
+import SuccessModal from './components/SuccessModal';
 import './dynamic-form.css'; // Import the CSS file
 
 const App = () => {

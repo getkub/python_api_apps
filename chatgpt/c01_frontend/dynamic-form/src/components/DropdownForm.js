@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import optionsData from './optionsData';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
+import { Redirect } from 'react-router-dom';
 
 const DropdownForm = ({ onSubmit }) => {
   const [firstOptions, setFirstOptions] = useState([]);
-  const [secondOptions, setSecondOptions] = useState([]);
   const [selectedFirstOptions, setSelectedFirstOptions] = useState([]);
   const [selectedSecondOptions, setSelectedSecondOptions] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,18 +24,21 @@ const DropdownForm = ({ onSubmit }) => {
   const handleFirstOptionChange = (selectedOptions) => {
     setSelectedFirstOptions(selectedOptions);
     setSelectedSecondOptions([]);
-
-    if (selectedOptions.length > 0) {
-      const firstOption = selectedOptions[0].value;
-      const secondOpts = optionsData().secondOptions[firstOption] || [];
-      setSecondOptions(secondOpts);
-    } else {
-      setSecondOptions([]);
-    }
   };
 
   const handleSecondOptionChange = (selectedOptions) => {
     setSelectedSecondOptions(selectedOptions);
+  };
+
+  const getAvailableSecondOptions = () => {
+    const availableSecondOptions = [];
+    selectedFirstOptions.forEach((selectedOption) => {
+      const options = optionsData().secondOptions[selectedOption.value];
+      if (options) {
+        availableSecondOptions.push(...options);
+      }
+    });
+    return availableSecondOptions;
   };
 
   const handleSubmit = (e) => {
@@ -45,8 +49,13 @@ const DropdownForm = ({ onSubmit }) => {
       secondOptions: selectedSecondOptions,
     };
     onSubmit(formData);
+    setSubmitted(true);
   };
 
+  if (submitted) {
+    return <Redirect to="/success" />;
+  }
+  
   return (
     <div>
       <h2>Dropdown Form</h2>
@@ -71,7 +80,7 @@ const DropdownForm = ({ onSubmit }) => {
               id="secondOptions"
               name="secondOptions"
               multiple
-              options={secondOptions}
+              options={getAvailableSecondOptions()}
               selected={selectedSecondOptions}
               onChange={handleSecondOptionChange}
               labelKey="label"
