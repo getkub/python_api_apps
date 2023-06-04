@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../dynamic-form.css'; // Import your CSS file
+import { useHistory } from 'react-router-dom';
+import '../dynamic-form.css';
 
 const Form = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -9,8 +10,7 @@ const Form = ({ onSubmit }) => {
     message: '',
   });
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isError, setIsError] = useState(false);
+  const history = useHistory();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,13 +21,12 @@ const Form = ({ onSubmit }) => {
 
     axios
       .post('http://localhost:8000/api/submit-form', formData)
-      .then((response) => {
-        setIsSubmitted(true);
+      .then(() => {
         onSubmit();
+        history.push('/success');
       })
       .catch((error) => {
         console.error(error);
-        setIsError(true);
       });
   };
 
@@ -44,11 +43,9 @@ const Form = ({ onSubmit }) => {
           <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
         </div>
         <button className="btn btn-primary submit-button" type="submit">
-            Submit
+          Submit
         </button>
       </form>
-      {isSubmitted && <p className="success-message">Form submitted successfully!</p>}
-      {isError && <p className="error-message">An error occurred. Please try again.</p>}
     </div>
   );
 };

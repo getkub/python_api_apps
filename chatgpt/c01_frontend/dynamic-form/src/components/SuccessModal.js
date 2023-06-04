@@ -6,7 +6,7 @@ const SuccessModal = () => {
     <div>
       <h2>Form Submitted Successfully!</h2>
       <p>Thank you for submitting the form.</p>
-      <Link to="/form">Go Back to Form</Link>
+      <Link to="/">Go Back to Form</Link>
     </div>
   );
 };
