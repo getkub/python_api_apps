@@ -14,7 +14,6 @@ const DropdownForm = ({ onSubmit }) => {
       const data = await optionsData();
       if (data) {
         setFirstOptions(data.firstOptions);
-        setSecondOptions(data.secondOptions);
       }
     };
 
@@ -24,22 +23,19 @@ const DropdownForm = ({ onSubmit }) => {
   const handleFirstOptionChange = (selectedOptions) => {
     setSelectedFirstOptions(selectedOptions);
     setSelectedSecondOptions([]);
+
+    if (selectedOptions.length > 0) {
+      const firstOption = selectedOptions[0].value;
+      const secondOpts = optionsData().secondOptions[firstOption] || [];
+      setSecondOptions(secondOpts);
+    } else {
+      setSecondOptions([]);
+    }
   };
 
   const handleSecondOptionChange = (selectedOptions) => {
     setSelectedSecondOptions(selectedOptions);
   };
-
-  const getAvailableSecondOptions = () => {
-    const availableSecondOptions = [];
-    selectedFirstOptions.forEach((selectedOption) => {
-      const options = secondOptions[selectedOption];
-      if (options) {
-        availableSecondOptions.push(...options);
-      }
-    });
-    return availableSecondOptions;
-  };  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +71,7 @@ const DropdownForm = ({ onSubmit }) => {
               id="secondOptions"
               name="secondOptions"
               multiple
-              options={getAvailableSecondOptions()}
+              options={secondOptions}
               selected={selectedSecondOptions}
               onChange={handleSecondOptionChange}
               labelKey="label"

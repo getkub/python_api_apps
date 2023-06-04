@@ -1,6 +1,6 @@
 import options from './options.json';
 
-const fetchOptionsData = async () => {
+const optionsData = () => {
   try {
     return options;
   } catch (error) {
@@ -9,4 +9,4 @@ const fetchOptionsData = async () => {
   }
 };
 
-export default fetchOptionsData;
+export default optionsData;
