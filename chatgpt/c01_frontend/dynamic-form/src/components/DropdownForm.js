@@ -51,7 +51,7 @@ const DropdownForm = ({ onSubmit }) => {
     onSubmit(formData);
     setSubmitted(true);
   };
-
+  
   if (submitted) {
     return <Redirect to="/success" />;
   }
