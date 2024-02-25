@@ -1,48 +1,47 @@
+// components/Form.js
 import React, { useState } from 'react';
-import axios from 'axios';
-import { withRouter } from 'react-router-dom';
-import '../dynamic-form.css';
 
-const Form = ({ history }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
+const Form = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({});
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
     try {
-      await axios.post('http://localhost:8000/api/submit-form', formData);
-      history.push('/dropdown');
+      const response = await fetch('http://localhost:8000/api/submit-form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      console.log(data); // Log the response from the backend
+
+      // Assuming onSubmit is a callback prop passed from App.js
+      onSubmit();
     } catch (error) {
-      console.error(error);
+      console.error('Error submitting form:', error);
     }
   };
 
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
-    <div className="form-container">
-      <h2 className="form-header">Submit Form</h2>
-      <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
-        </div>
-        <button className="btn btn-primary submit-button" type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Form Field:
+        <input type="text" name="field" onChange={handleChange} />
+      </label>
+      <button type="submit">Submit Form</button>
+    </form>
   );
 };
 
-export default withRouter(Form);
+export default Form;

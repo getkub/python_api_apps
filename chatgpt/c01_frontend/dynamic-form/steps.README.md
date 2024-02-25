@@ -13,5 +13,21 @@ touch src/components/Form.js src/components/FormInput.js
 mkdir backend
 touch backend/main.py ## Update the fastapi code here
 
-pip install fastapi uvicorn
+pip3 install fastapi uvicorn
+```
+
+## To start
+```
+## python3 -m venv venv
+python3 -m uvicorn main:app --reload
+
+```
+
+### Test backend
+- http://localhost:8000/api/form
+
+
+### Test FrontEnd
+```
+curl -X POST -H "Content-Type: application/json" -d '{"key": "value"}' http://localhost:8000/api/submit-form
 ```

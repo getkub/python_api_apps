@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import router
+from api.routes import router as api_router
 import uvicorn
+from api.data import get_data
+import os
 
 app = FastAPI()
 
@@ -19,8 +21,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register the router
-app.include_router(router)
+# Include your API routes
+app.include_router(api_router)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    try:
+        # Print the current working directory
+        print("Current working directory:", os.getcwd())
+
+        # Print the absolute path to data.json
+        print("Absolute path to data.json:", os.path.abspath("api/data.json"))
+
+        uvicorn.run(app, host="localhost", port=8000)
+    except Exception as e:
+        print("Exception:", str(e))
