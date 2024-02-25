@@ -5,8 +5,8 @@ const Table = ({ existingData }) => {
   return (
     <div>
       <h2>Existing Data</h2>
-      <table>
-        <thead>
+      <table className="table table-bordered table-hover">
+        <thead className="thead-dark">
           <tr>
             <th>Name</th>
             <th>Email</th>

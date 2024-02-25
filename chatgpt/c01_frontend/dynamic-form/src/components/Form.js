@@ -28,9 +28,11 @@ const Form = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="mt-4">
       <FormFields formData={formData} setFormData={setFormData} />
-      <button type="submit">Submit Form</button>
+      <button type="submit" className="btn btn-primary mt-3">
+        Submit Form
+      </button>
     </form>
   );
 };
