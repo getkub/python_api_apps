@@ -1,8 +1,8 @@
-# api/routes.py
+# backend/app/routes/api_routes.py
+
 from fastapi import APIRouter, Request, HTTPException
-from api.data import get_data, save_data
+from app.data.data_manager import get_data, save_data
 import json
-import yaml
 
 router = APIRouter()
 
@@ -23,22 +23,14 @@ async def submit_form(request: Request):
         # Process the form data and perform any necessary actions
         # ...
 
-        # Append form data to existing data
-        existing_data.append(form_data)
-
-        # Save the updated data to data.json
-        save_data(existing_data)
-
-        # Append form data to the YAML file at /tmp/fulldata.yaml
-        yaml_file_path = '/tmp/fulldata.yaml'
-        with open(yaml_file_path, 'a') as yaml_file:
-            yaml.dump([form_data], yaml_file, default_flow_style=False)
+        # Update your save_data logic here
+        save_data(form_data)  # Assuming save_data saves the data to /tmp/fulldata.yaml
 
         return {"message": "Form submitted successfully", "data": form_data}
+
     except json.JSONDecodeError as e:
         # Handle JSONDecodeError (invalid JSON or empty body)
         raise HTTPException(status_code=400, detail=f"Invalid JSON data: {str(e)}")
     except Exception as e:
-        # Handle other exceptions and print detailed error message
-        print(f"Internal Server Error: {str(e)}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+        # Handle other exceptions
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {str(e)}")
