@@ -1,5 +1,6 @@
 // components/Form.js
 import React, { useState } from 'react';
+import FormFields from './FormFields';
 
 const Form = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -39,21 +40,7 @@ const Form = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input type="text" name="name" onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input type="text" name="email" onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Phone:
-        <input type="text" name="phone" onChange={handleChange} />
-      </label>
-      <br />
+      <FormFields formData={formData} onChange={handleChange} />
       <button type="submit">Submit Form</button>
     </form>
   );
