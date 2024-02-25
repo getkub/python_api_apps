@@ -1,7 +1,7 @@
 // components/FormFields.js
 import React from 'react';
 
-const FormFields = ({ formData, setFormData, onSubmit }) => {
+const FormFields = ({ formData, setFormData }) => {
   const handleChange = (event) => {
     setFormData({
       ...formData,
@@ -10,8 +10,7 @@ const FormFields = ({ formData, setFormData, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      {/* Your form fields here */}
+    <div>
       <label>
         Name:
         <input type="text" name="name" value={formData.name || ''} onChange={handleChange} />
@@ -24,8 +23,7 @@ const FormFields = ({ formData, setFormData, onSubmit }) => {
         Phone:
         <input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} />
       </label>
-      <button type="submit">Submit Form</button>
-    </form>
+    </div>
   );
 };
 
