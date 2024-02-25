@@ -1,9 +1,12 @@
 // components/Form.js
 import React, { useState } from 'react';
 
-const Form = ({ onFormSubmit }) => {
-  const [formData, setFormData] = useState({ field: '' });
-  const [response, setResponse] = useState(null);
+const Form = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,14 +20,11 @@ const Form = ({ onFormSubmit }) => {
         body: JSON.stringify(formData),
       });
 
-      const responseData = await response.json();
-      console.log(responseData);
+      const data = await response.json();
+      console.log(data);
 
-      // Set the response state to display it in the UI
-      setResponse(responseData);
-
-      // Assuming onFormSubmit is a callback prop passed from App.js
-      onFormSubmit();
+      // Assuming onSubmit is a callback prop passed from App.js
+      onSubmit();
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -38,28 +38,24 @@ const Form = ({ onFormSubmit }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Form Field:
-          <input
-            type="text"
-            name="field"
-            value={formData.field}
-            onChange={handleChange}
-            placeholder="Enter a value"
-          />
-        </label>
-        <button type="submit">Submit Form</button>
-      </form>
-
-      {response && (
-        <div>
-          <h2>Response from Server:</h2>
-          <pre>{JSON.stringify(response, null, 2)}</pre>
-        </div>
-      )}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" name="name" onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Email:
+        <input type="text" name="email" onChange={handleChange} />
+      </label>
+      <br />
+      <label>
+        Phone:
+        <input type="text" name="phone" onChange={handleChange} />
+      </label>
+      <br />
+      <button type="submit">Submit Form</button>
+    </form>
   );
 };
 

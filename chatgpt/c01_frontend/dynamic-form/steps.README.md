@@ -14,6 +14,7 @@ mkdir backend
 touch backend/main.py ## Update the fastapi code here
 
 pip3 install fastapi uvicorn
+pip3 install pyyaml
 ```
 
 ## To start
