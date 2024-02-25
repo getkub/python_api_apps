@@ -1,24 +1,25 @@
 // components/Form.js
 import React, { useState, useEffect } from 'react';
 
-const Form = ({ onSubmit }) => {
+const Form = ({ onSubmit, onDataUpdate }) => {
   const [formData, setFormData] = useState({});
   const [existingData, setExistingData] = useState([]);
 
-  // Function to fetch existing data
+  useEffect(() => {
+    // Fetch existing data when the component mounts
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs once on mount
+
   const fetchData = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/get-data');
       const data = await response.json();
+      console.log('Existing Data:', data);
       setExistingData(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []); // Fetch data on component mount
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -33,13 +34,14 @@ const Form = ({ onSubmit }) => {
       });
 
       const data = await response.json();
-      console.log(data);
+      console.log('Form submitted successfully', data);
 
-      // Assuming onSubmit is a callback prop passed from App.js
-      onSubmit();
-
-      // Fetch updated data after submission
+      // Trigger data update
       fetchData();
+      onDataUpdate();
+
+      // Reset form data
+      setFormData({});
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -55,6 +57,7 @@ const Form = ({ onSubmit }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        {/* Your form fields here */}
         <label>
           Name:
           <input type="text" name="name" onChange={handleChange} />
@@ -70,12 +73,26 @@ const Form = ({ onSubmit }) => {
         <button type="submit">Submit Form</button>
       </form>
 
-      <h2>Existing Data:</h2>
-      <ul>
-        {existingData.map((item, index) => (
-          <li key={index}>{JSON.stringify(item)}</li>
-        ))}
-      </ul>
+      {/* Display existing data in a table */}
+      <h2>Existing Data</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+          {existingData.map((item, index) => (
+            <tr key={index}>
+              <td>{item.name}</td>
+              <td>{item.email}</td>
+              <td>{item.phone}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
