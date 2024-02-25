@@ -2,7 +2,7 @@
 
 import json
 
-DATA_FILE_PATH = "/tmp/fulldata.yaml"
+DATA_FILE_PATH = "/tmp/fulldata.json"
 
 def get_data():
     try:

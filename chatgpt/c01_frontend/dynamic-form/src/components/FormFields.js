@@ -1,25 +1,31 @@
 // components/FormFields.js
 import React from 'react';
 
-const FormFields = ({ formData, onChange }) => {
+const FormFields = ({ formData, setFormData, onSubmit }) => {
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
-    <>
+    <form onSubmit={onSubmit}>
+      {/* Your form fields here */}
       <label>
         Name:
-        <input type="text" name="name" value={formData.name} onChange={onChange} />
+        <input type="text" name="name" value={formData.name || ''} onChange={handleChange} />
       </label>
-      <br />
       <label>
         Email:
-        <input type="text" name="email" value={formData.email} onChange={onChange} />
+        <input type="text" name="email" value={formData.email || ''} onChange={handleChange} />
       </label>
-      <br />
       <label>
         Phone:
-        <input type="text" name="phone" value={formData.phone} onChange={onChange} />
+        <input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} />
       </label>
-      <br />
-    </>
+      <button type="submit">Submit Form</button>
+    </form>
   );
 };
 
