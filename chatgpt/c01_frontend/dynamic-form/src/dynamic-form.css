@@ -63,3 +63,27 @@
   color: #dc3545;
   font-weight: bold;
 }
+
+/* dynamic-form.css */
+.form-fields {
+  display: flex;
+}
+
+.form-field {
+  margin-right: 20px;
+}
+
+.form-field:last-child {
+  margin-right: 0;
+}
+
+.form-field label {
+  width: 100px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.form-field input {
+  width: 200px;
+  padding: 8px;
+}
