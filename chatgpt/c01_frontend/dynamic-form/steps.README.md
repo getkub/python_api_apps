@@ -32,3 +32,7 @@ python3 -m uvicorn main:app --reload
 ```
 curl -X POST -H "Content-Type: application/json" -d '{"key": "value"}' http://localhost:8000/api/submit-form
 ```
+- Start npm and will start on port 3000 as per code
+```
+npm start
+```
