@@ -1,8 +1,9 @@
 // components/Form.js
 import React, { useState } from 'react';
 
-const Form = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({});
+const Form = ({ onFormSubmit }) => {
+  const [formData, setFormData] = useState({ field: '' });
+  const [response, setResponse] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -16,11 +17,14 @@ const Form = ({ onSubmit }) => {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      console.log(data); // Log the response from the backend
+      const responseData = await response.json();
+      console.log(responseData);
 
-      // Assuming onSubmit is a callback prop passed from App.js
-      onSubmit();
+      // Set the response state to display it in the UI
+      setResponse(responseData);
+
+      // Assuming onFormSubmit is a callback prop passed from App.js
+      onFormSubmit();
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -34,13 +38,28 @@ const Form = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Form Field:
-        <input type="text" name="field" onChange={handleChange} />
-      </label>
-      <button type="submit">Submit Form</button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Form Field:
+          <input
+            type="text"
+            name="field"
+            value={formData.field}
+            onChange={handleChange}
+            placeholder="Enter a value"
+          />
+        </label>
+        <button type="submit">Submit Form</button>
+      </form>
+
+      {response && (
+        <div>
+          <h2>Response from Server:</h2>
+          <pre>{JSON.stringify(response, null, 2)}</pre>
+        </div>
+      )}
+    </div>
   );
 };
 
