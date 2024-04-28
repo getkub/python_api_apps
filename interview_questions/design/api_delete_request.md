@@ -81,6 +81,46 @@ Monitoring: Monitor system health (scheduler, worker, queue) for timely identifi
 Alerting: Notify administrators of critical events (e.g., service failures, high error rates).
 
 
+```mermaid
+graph TD;
+    Consumer(Consumer) --> APIGateway(API Gateway);
+    APIGateway --> SchedulerService(Scheduler Service);
+    SchedulerService --> TaskQueue(Task Queue);
+    TaskQueue --> WorkerService(Worker Service);
+    WorkerService --> MyService(https://myservice.com/api/items/_delete);
+    WorkerService --> SchedulerService;
+    SchedulerService --> APIGateway;
+    
+    subgraph Validation_&_Transformation
+        APIGateway -->|"Validation & Transformation"| SchedulerService
+    end
+    
+    subgraph Validation_&_Persistence
+        SchedulerService -->|"Validation & Persistence"| TaskQueue
+    end
+    
+    subgraph Wait_for_Scheduled_Time
+        TaskQueue -->|"Wait for Scheduled Time"| WorkerService
+    end
+    
+    subgraph Executes_Request
+        WorkerService -->|"Executes Request"| MyService
+    end
+    
+    subgraph Sends_Status_&_Updates_Request_State
+        WorkerService -->|"Makes DELETE Request"| MyService
+        MyService -->|"Response"| WorkerService
+        WorkerService -->|"Sends Status"| SchedulerService
+        SchedulerService -->|"Updates Request State"| APIGateway
+    end
+    
+    subgraph Sends_Response
+        SchedulerService -->|"Responds to Consumer"| APIGateway
+    end
+
+
+```
+
 
 ```
 Consumer  --> (Submits Request) --> API Gateway
