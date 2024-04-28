@@ -13,23 +13,25 @@ NFR
 
 ```mermaid
 graph TB
-    WebUI[Web UI]
-    JobScheduler[Job Scheduler]
-    QueueingSystem[Queueing System]
-    subgraph JobWorkerGroup [Job Workers]
-        JobWorker1[Job Worker 1]
-        JobWorker2[Job Worker 2]  
-    end
-    Database[Database]
 
-    WebUI -->|Job details| JobScheduler
-    JobScheduler -->|Job queue| QueueingSystem
-    QueueingSystem --> JobWorkerGroup
-    JobWorker1 -->|Store output| Database
-    JobWorker2 -->|Store output| Database
+subgraph JobWorkerGroup [Job Workers]
+    JobWorker1[Job Worker 1]
+    JobWorker2[Job Worker 2]  
+end
 
-    classDef workers fill:#ccf,stroke-width:4px;
-    class JobWorker1,JobWorker2 workers;
+WebUI[Web UI] --> |Job details check status| JobScheduler
+JobScheduler -->|Schedule/Enqueue checks duplicates| QueueingSystem
+QueueingSystem --> JobWorkerGroup
+
+JobWorker1 --> |Update status| Database
+JobWorker2 --> |Update status| Database
+
+Database --> |Running jobs| JobStatusChecker
+JobScheduler --> |Check job status| JobStatusChecker
+
+classDef workers fill:#ccf,stroke-width:4px;
+class JobWorker1,JobWorker2 workers;
+
 ```
 
 ---
