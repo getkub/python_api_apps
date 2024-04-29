@@ -1,6 +1,5 @@
 from collections import deque
 
-
 class HitCounter:
   """
   This class implements a hit counter that tracks the number of requests within a time window.
@@ -13,7 +12,7 @@ class HitCounter:
     - queue: A deque to store timestamps and counts of hits at each timestamp.
     """
     self.TIME_LIMIT = 300  # Time window (5 minutes in seconds)
-    self.queue = deque()
+    self.queue = deque()  # O(1) space
 
   def hit(self, timestamp):
     """
@@ -30,7 +29,7 @@ class HitCounter:
 
     # Remove timestamps older than the time window from the beginning of the queue
     while self.queue and self.queue[0][0] + self.TIME_LIMIT <= timestamp:
-      self.queue.popleft()
+      self.queue.popleft()  # Removing from the beginning of deque is O(1) operation
 
   def getHits(self, timestamp):
     """
@@ -43,7 +42,7 @@ class HitCounter:
     """
     # Calculate the total count of hits within the window by summing counts from timestamps
     total_hits = sum(count for timestamp, count in self.queue if timestamp + self.TIME_LIMIT > timestamp)
-    return total_hits
+    return total_hits  # O(n) time, where n is the number of elements in the queue
 
 # Example usage
 hitCounter = HitCounter()

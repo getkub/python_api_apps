@@ -2,34 +2,33 @@ PREMIUM_COST = 100  # Replace with actual premium cost
 STANDARD_COST = 50  # Replace with actual standard cost
 
 class User:
-  def __init__(self, user_type, start_date):
-    self.user_type = user_type  # "premium" or "standard"
-    self.monthly_cost = PREMIUM_COST if user_type == "premium" else STANDARD_COST
-    self.start_date = start_date  # datetime object
+    def __init__(self, user_type, start_date):
+        self.user_type = user_type  # "premium" or "standard"
+        self.monthly_cost = PREMIUM_COST if user_type == "premium" else STANDARD_COST
+        self.start_date = start_date  # datetime object
 
 def calculate_pro_rated_cost(user, switch_date):
-  """
-  Calculates a potential pro-rated cost for a user switching to premium within a month 
-  (considering standard cost is already paid for the month).
+    """
+    Calculates a potential pro-rated cost for a user switching to premium within a month 
+    (considering standard cost is already paid for the month).
 
-  Args:
-      user: A User object representing the user.
-      switch_date: A datetime object representing the date of switching.
+    Args:
+        user: A User object representing the user.
+        switch_date: A datetime object representing the date of switching.
 
-  Returns:
-      A float representing the potential pro-rated cost (might be 0).
-  """
-  if user.user_type == "premium":
-    return 0  # No pro-rated cost if user is already premium
+    Returns:
+        A float representing the potential pro-rated cost (might be 0).
+    """
+    if user.user_type == "premium":
+        return 0  # No pro-rated cost if user is already premium
 
-  days_in_month = calendar.monthrange(switch_date.year, switch_date.month)[1]
-  print(f"days_in_month: {days_in_month:.0f}")
-  days_used = (switch_date - user.start_date).days + 1  # Add 1 for the switch day
+    days_in_month = calendar.monthrange(switch_date.year, switch_date.month)[1]  # O(1) time
+    days_used = (switch_date - user.start_date).days + 1  # Add 1 for the switch day  # O(1) time
 
-  # Potential pro-rated cost based on remaining days as a fraction of month
-  pro_rated_cost = (PREMIUM_COST - STANDARD_COST) * (days_in_month - days_used) / days_in_month
+    # Potential pro-rated cost based on remaining days as a fraction of month
+    pro_rated_cost = (PREMIUM_COST - STANDARD_COST) * (days_in_month - days_used) / days_in_month  # O(1) time
 
-  return max(pro_rated_cost, 0)  # Ensure non-negative cost
+    return max(pro_rated_cost, 0)  # Ensure non-negative cost  # O(1) time
 
 # Example usage
 from datetime import date

@@ -9,27 +9,27 @@ def lemonade_change(bills):
       True if all customers can receive correct change, False otherwise.
   """
   # Initialize a dictionary to store the number of bills of each denomination
-  cash_on_hand = {5: 0, 10: 0, 20: 0}
+  cash_on_hand = {5: 0, 10: 0, 20: 0}  # O(1) space
 
   # Iterate through the bills
-  for bill in bills:
+  for bill in bills:  # O(n) time, where n is the number of bills
     # Customer pays with a $5 bill, no change needed
-    if bill == 5:
-      cash_on_hand[5] += 1  # Add to $5 bill count
+    if bill == 5:  # O(1) time
+      cash_on_hand[5] += 1  # O(1) time
 
     # Customer pays with a larger bill, need to provide change with $5 and $10 bills
-    elif bill == 10:
+    elif bill == 10:  # O(1) time
       # Check if there's enough change for a $10 bill
-      if cash_on_hand[5] >= 1:
+      if cash_on_hand[5] >= 1:  # O(1) time
         cash_on_hand[5] -= 1  # Remove $5 bill used for change
         cash_on_hand[10] += 1  # Add to $10 bill count
       else:
         # Not enough change, cannot serve customer
         return False
 
-    elif bill == 20:
+    elif bill == 20:  # O(1) time
       # Check if there's enough change for a $20 bill using $10 and $5 bills
-      if cash_on_hand[10] >= 1 and cash_on_hand[5] >= 1:
+      if cash_on_hand[10] >= 1 and cash_on_hand[5] >= 1:  # O(1) time
         cash_on_hand[10] -= 1  # Remove $10 bill used for change
         cash_on_hand[5] -= 1  # Remove $5 bill used for change
         cash_on_hand[20] += 1  # Add to $20 bill count
@@ -41,11 +41,11 @@ def lemonade_change(bills):
         return False
 
   # All customers served successfully
-  return True
+  return True  # O(1) time
 
 # Example usage
 bills1 = [5, 5, 5, 10, 20]
 bills2 = [5, 5, 10, 10, 20]
 
 print(lemonade_change(bills1))  # Output: True
-print(lemonade_change(bills2))  # Output: False 
+print(lemonade_change(bills2))  # Output: False

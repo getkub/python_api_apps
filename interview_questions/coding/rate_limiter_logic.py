@@ -3,6 +3,16 @@ import time
 
 class RateLimiter:
   """
+  Creating a HitCounter object: O(1)
+  Retrieving or updating client data from the client_timestamp_map: O(1)
+  Checking if a request is allowed within the HitCounter: O(1)
+  Overall time complexity: O(1)
+  The space complexity is as follows:
+
+  Storing client data in the client_timestamp_map: O(N), where N is the number of clients
+  Storing timestamps in the HitCounter queue: O(K), where K is the number of timestamps stored for a client
+  Overall space complexity: O(N + K)
+
   This class implements a rate limiter that restricts the number of requests a client
   can send within a specified time window.
   """

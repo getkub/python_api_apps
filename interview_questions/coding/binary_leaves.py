@@ -16,31 +16,31 @@ def printLeavesByLevel(root):
   if not root:
     return
 
-  result = []
-  queue = deque([root])
-  visited = set()
+  result = []  # O(n) space, where n is the number of nodes in the tree
+  queue = deque([root])  # O(n) space, where n is the number of nodes in the tree
+  visited = set()  # O(n) space, where n is the number of nodes in the tree
 
   while queue:
-    level_nodes = []
-    for _ in range(len(queue)):
-      node = queue.popleft()
-      visited.add(node)
+    level_nodes = []  # O(h) space, where h is the height of the tree
+    for _ in range(len(queue)):  # O(n) time, where n is the number of nodes in the current level
+      node = queue.popleft()  # O(1) time
+      visited.add(node)  # O(1) time
 
       if not node.left and not node.right:
-        level_nodes.append(node.val)
+        level_nodes.append(node.val)  # O(1) time
         # Remove node (implementation depends on your tree structure)
         # (e.g., set node.left and node.right to None)
 
       if node.left and node.left not in visited:
-        queue.append(node.left)
+        queue.append(node.left)  # O(1) time
       if node.right and node.right not in visited:
-        queue.append(node.right)
+        queue.append(node.right)  # O(1) time
 
-    result.append(level_nodes)
+    result.append(level_nodes)  # O(1) time
 
   # Print results by level
-  for level in result:
-    print(level)
+  for level in result:  # O(h) time, where h is the height of the tree
+    print(level)  # O(h) time
 
 # Example usage
 root = TreeNode(1)
