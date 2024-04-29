@@ -20,12 +20,25 @@ graph TB
     end
 
     subgraph Edge
-        AG[API Gateway]
+        LB1[Load Balancer]
+        AG1[API Gateway 1]
+        AG2[API Gateway 2]
+        AG3[API Gateway 3]
     end
 
     subgraph Backend
-        SS[Scheduler Service]
-        DB[(Database)]
+        subgraph Schedulers
+            SS1[Scheduler 1]
+            SS2[Scheduler 2]
+            SS3[Scheduler 3]
+        end
+        
+        subgraph Database
+            DB1[(Database 1)]
+            DB2[(Database 2)]
+            DB3[(Database 3)]
+        end
+        
         RQ[Request Queue]
         
         subgraph Workers
@@ -39,10 +52,19 @@ graph TB
         ES[External Service]
     end
 
-    C--JSON Request-->AG
-    AG--Validate and Route-->SS
-    SS--Store Request-->DB
-    SS--Push Request-->RQ
+    C--JSON Request-->LB1
+    LB1-->AG1
+    LB1-->AG2
+    LB1-->AG3
+    AG1--Validate and Route-->SS1
+    AG2--Validate and Route-->SS2
+    AG3--Validate and Route-->SS3
+    SS1--Store Request-->DB1
+    SS2--Store Request-->DB2
+    SS3--Store Request-->DB3
+    SS1--Push Request-->RQ
+    SS2--Push Request-->RQ
+    SS3--Push Request-->RQ
     RQ--Consume Request-->W1
     RQ--Consume Request-->W2
     RQ--Consume Request-->W3
@@ -63,10 +85,10 @@ graph TB
     class C client
 
     classDef edge fill:#f9f,stroke:#333,stroke-width:4px
-    class AG edge
+    class LB1,AG1,AG2,AG3 edge
 
     classDef backend fill:#ccf,stroke:#333,stroke-width:4px
-    class SS,DB,RQ,W1,W2,W3 backend
+    class SS1,SS2,SS3,DB1,DB2,DB3,RQ,W1,W2,W3 backend
 
     classDef external fill:#f9f,stroke:#333,stroke-width:4px
     class ES external
