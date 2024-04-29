@@ -1,24 +1,21 @@
 ## Components
 
-1. **Client**: The client component (Web/Mobile App) that allows users to create tags, add tags to products, and search for tags/products.
+**Client (Web/Mobile App):** Initiates actions such as creating a tag or requesting tag information.
 
-2. **Load Balancer**: Distributes incoming requests across multiple API Gateway instances for scalability and high availability.
+**Tagging Service:** Handles tag creation requests from the client. It interacts with the Tag Database to store tag information. Additionally, it publishes messages to Kafka for further processing.
 
-3. **API Gateway**: Handles client requests, authentication, rate limiting, and routing to the appropriate service.
+**Product Mapping Service:** Handles mapping tags to products. It interacts with the Tag Database to update tag-product mappings. Similar to the Tagging Service, it also publishes messages to Kafka.
 
-4. **Tagging Service**: Responsible for creating tags and associating tags with products. It stores tags in the Tag Database and publishes tag creation events to the Message Queue.
+**Tag Database:** Stores tag information. Both the Tagging Service and Product Mapping Service interact with this database.
 
-5. **Tag Database**: Stores tag information, including name, description, and associated products.
+**Kafka:** Serves as a message broker. It receives messages from the Tagging Service and Product Mapping Service and forwards them to the workers for processing.
 
-6. **Product Service**: Manages product data and associates tags with products. It stores product data in the Product Database.
+**Workers:** Consumes messages from Kafka and performs necessary tasks such as indexing, updating, or processing tag-related data. After processing, they update the Database Store.
 
-7. **Product Database**: Stores product information, including associated tags.
+**Database Store:** Stores the processed tag and tag-product mapping data.
 
-8. **Autocomplete Service**: Consumes tag creation events from the Message Queue and updates the Search Cache for efficient autocomplete suggestions.
+**Tag Cache:** Optionally, a cache layer may exist to store frequently accessed tag information for faster retrieval. The Tagging Service can fetch tag information from this cache before querying the Database Store directly.
 
-9. **Search Cache**: An in-memory cache (e.g., Redis) that stores tag information for fast autocomplete suggestions.
-
-10. **Message Queue**: A persistent queue (e.g., Apache Kafka, RabbitMQ) that decouples the Tagging Service and Autocomplete Service, ensuring eventual consistency for autocomplete suggestions.
 
 ```mermaid
 
@@ -27,58 +24,52 @@ graph TD
         C[Web/Mobile App]
     end
 
-    subgraph Edge
-        LB[Load Balancer]
-        AG1[API Gateway 1]
-        AG2[API Gateway 2]
+    subgraph TaggingService
+        TS[Tagging Service]
     end
 
-    subgraph Backend
-        subgraph Services
-            TS[Tagging Service]
-            PS[Product Service]
-            AS[Autocomplete Service]
-            SSS[System Services]
-        end
-
-        subgraph WriteStorage
-            TDB[Tag Database]
-        end
-
-        subgraph ReadStorage
-            RDB1[Read Database 1]
-            RDB2[Read Database 2]
-            RDB3[Read Database 3]
-        end
-
-        subgraph Cache
-            TC[Tag Cache]
-            PC[Product Cache]
-        end
-
-        subgraph MessageQueue
-            MQ[Message Queue]
-        end
+    subgraph ProductMappingService
+        PMS[Product Mapping Service]
     end
 
-    C--Request-->LB
-    LB-->AG1
-    LB-->AG2
-    AG1-->TS
-    AG2-->TS
-    TS-->TDB
-    TS-->MQ
-    TS-->AS
-    AS-->TC
-    AS-->RDB1
-    AS-->RDB2
-    AS-->RDB3
-    TS-->PS
-    PS-->TDB
-    PS-->PC
-    PC-->RDB1
-    PC-->RDB2
-    PC-->RDB3
+    subgraph TagDatabase
+        TDB[Tag Database]
+    end
+
+    subgraph MessageQueue
+        MQ[Kafka]
+    end
+
+    subgraph Workers
+        W1[Worker 1]
+        W2[Worker 2]
+        W3[Worker 3]
+    end
+
+    subgraph DatabaseStore
+        DB[Database Store]
+    end
+
+    subgraph Cache
+        TC[Tag Cache]
+    end
+
+    C--Create Tag-->TS
+    TS-->|PUT| TDB
+    TS-->|PUT| MQ
+    MQ-->|Consume| W1
+    W1-->|Process| DB
+
+    C--Create Tag-->TS
+    TS-->|Map to Product| PMS
+    PMS-->|PUT| TDB
+    PMS-->|PUT| MQ
+    MQ-->|Consume| W2
+    W2-->|Process| DB
+
+    C--Get Tag-->TS
+    TS-->|GET| TC
+    TC-->|Cached DB Store| DB
 
 ```
 
