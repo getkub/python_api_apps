@@ -2,8 +2,9 @@
 ##  Install Dependencies
 
 ```
-python3 -m venv  ~/Documents/removeMe/python_venv 
-source ~/Documents/removeMe/python_venv/bin/activate
+venv_dir="~/Documents/removeMe/python_venv"
+python3 -m venv ${venv_dir}
+source ${venv_dir}/bin/activate
 python3 -m pip install requests beautifulsoup4 pandas selenium
 ```
 
@@ -11,7 +12,8 @@ python3 -m pip install requests beautifulsoup4 pandas selenium
 
 - With pagination
 ```
-python3 ./scrape_schools.py
+URL="from_a_list"
+python3 ${script_dir}/download_schools.py ${URL}
 ```
 
 ### Filters
@@ -20,13 +22,20 @@ python3 ./scrape_schools.py
 
 ```
 pip install geopy folium
-python3 ./map_schools.py
+python3 ${script_dir}/filter_schools.py
+```
+
+### GeoCode
+```
+pip install geopy folium
+python ${script_dir}/map_schools.py
+
 ```
 
 ### Now map into Geo Locations
 
 ```
 pip install geopy folium
-python3 ./map_schools.py
+python3 ${script_dir}/map_schools.py
 ```
 

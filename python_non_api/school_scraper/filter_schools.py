@@ -1,8 +1,8 @@
 import pandas as pd
 
 # Define input and output paths
-csv_input_path = "/tmp/vic_top_secondary_schools_full.csv"
-filtered_csv_output_path = "/tmp/filtered_vic_top_secondary_schools.csv"
+csv_input_path = "/tmp/top_secondary_schools_full.csv"
+filtered_csv_output_path = "/tmp/filtered_top_secondary_schools.csv"
 
 # Load the data
 df = pd.read_csv(csv_input_path)

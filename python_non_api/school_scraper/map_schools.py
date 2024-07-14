@@ -6,8 +6,8 @@ import pickle
 import time
 
 # Define output paths
-csv_output_path = "/tmp/vic_top_secondary_schools_full.csv"
-map_output_path = "/tmp/vic_top_secondary_schools_map.html"
+csv_output_path = "/tmp/filtered_top_secondary_schools.csv"
+map_output_path = "/tmp/top_secondary_schools_map.html"
 cache_output_path = "/tmp/geocode_cache.pkl"
 
 # Load the data

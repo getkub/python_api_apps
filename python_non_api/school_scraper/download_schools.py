@@ -1,16 +1,22 @@
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 import pandas as pd
 import time
 
+# Check if URL is passed as an argument
+if len(sys.argv) != 2:
+    print("Usage: python download_schools.py <url>")
+    sys.exit(1)
+
+# Get the URL from the command line argument
+url = sys.argv[1]
+
 # Define the output path
-output_path = "/tmp/vic_top_secondary_schools_full.csv"
+output_path = "/tmp/top_secondary_schools_full.csv"
 
 # Initialize WebDriver
 driver = webdriver.Chrome()
-
-url = "https://bettereducation.com.au/school/Secondary/vic/vic_top_secondary_schools.aspx"
 driver.get(url)
 
 # Wait for the page to load
