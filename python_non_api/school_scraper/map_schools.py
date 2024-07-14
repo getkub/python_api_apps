@@ -37,25 +37,28 @@ def get_coordinates(address):
                 geocode_cache[address] = coords
                 return address, coords
             else:
+                print(f"Address not found: {address}")
                 return address, None
         except Exception as e:
             print(f"Error geocoding {address}: {e}")
             return address, None
 
 # Create a list of addresses
-df['Address'] = df['School'] + ',' + df['Postcode'].astype(str)
+df['Address'] = df['School']
 
 # Get coordinates for each address using concurrent requests
 start_time = time.time()
 
 # Using ThreadPoolExecutor to parallelize the geocoding requests
 with ThreadPoolExecutor(max_workers=5) as executor:
-    futures = [executor.submit(get_coordinates, address) for address in df['Address']]
+    futures = {executor.submit(get_coordinates, address): address for address in df['Address']}
     results = {}
     for future in as_completed(futures):
         address, coords = future.result()
         if coords:
             results[address] = coords
+        else:
+            print(f"Failed to geocode address: {futures[future]}")
 
 # Update DataFrame with results
 df['Coordinates'] = df['Address'].map(results)
@@ -66,7 +69,12 @@ with open(cache_output_path, 'wb') as f:
     pickle.dump(geocode_cache, f)
 
 # Drop rows where coordinates are None
-df = df.dropna(subset=['Coordinates'])
+df_with_coords = df.dropna(subset=['Coordinates'])
+
+# Print information about missing data
+missing_count = len(df) - len(df_with_coords)
+if missing_count > 0:
+    print(f"Number of addresses not geocoded: {missing_count}")
 
 # Predefined color gradient from green to yellow to red
 color_gradient = [
@@ -81,12 +89,12 @@ def get_color(rank, total_ranks):
     return color_gradient[gradient_index]
 
 # Create a map
-map_center = df['Coordinates'].iloc[0]  # Center map around the first school
+map_center = df_with_coords['Coordinates'].iloc[0]  # Center map around the first school
 school_map = folium.Map(location=map_center, zoom_start=10)
 
 # Add points to the map
-total_ranks = len(df)
-for idx, row in df.iterrows():
+total_ranks = len(df_with_coords)
+for idx, row in df_with_coords.iterrows():
     rank = int(row['Order'])
     color = get_color(rank, total_ranks)
     folium.CircleMarker(
