@@ -22,7 +22,10 @@ python3 ${script_dir}/download_schools.py ${URL}
 
 ```
 pip install geopy folium
-python3 ${script_dir}/filter_schools.py
+
+## Below example is to filter for Victoria - Melbourne ONLY
+## Change parameters to do for other states
+python3 ${script_dir}/filter_schools_vic.py
 ```
 
 ### GeoCode
