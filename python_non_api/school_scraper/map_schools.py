@@ -43,30 +43,62 @@ def get_coordinates(address):
             print(f"Error geocoding {address}: {e}")
             return address, None
 
-# Create a list of addresses
-df['Address'] = df['School']
+# Function to retry geocoding with partial name
+def retry_with_partial_name(school_name):
+    # Use the portion of the school name after the first comma
+    address = f"{school_name.split(',', 1)[-1].strip()}"
+    print(f"Retrying with partial name: {address}")
+    return get_coordinates(address)
+
+# Initial geocoding
+start_time = time.time()
+df['Address'] = df['School']  # Initial attempt using just the school name
 
 # Get coordinates for each address using concurrent requests
-start_time = time.time()
-
-# Using ThreadPoolExecutor to parallelize the geocoding requests
 with ThreadPoolExecutor(max_workers=5) as executor:
     futures = {executor.submit(get_coordinates, address): address for address in df['Address']}
     results = {}
+    failed_addresses = []  # List to track addresses that failed
+
     for future in as_completed(futures):
+        address = futures[future]
         address, coords = future.result()
         if coords:
             results[address] = coords
         else:
-            print(f"Failed to geocode address: {futures[future]}")
+            # Capture the full address that failed
+            item = df[df['Address'] == address].iloc[0]
+            failed_addresses.append(item)
+            print(f"Failed to geocode address: {address}")
 
-# Update DataFrame with results
-df['Coordinates'] = df['Address'].map(results)
-print(f"Geocoding completed in {time.time() - start_time:.2f} seconds")
+# Retry geocoding failed addresses using partial name
+retry_start_time = time.time()
+with ThreadPoolExecutor(max_workers=5) as executor:
+    partial_retry_futures = {
+        executor.submit(retry_with_partial_name, item['School']): item for item in failed_addresses
+    }
+    for future in as_completed(partial_retry_futures):
+        item = partial_retry_futures[future]
+        address, coords = future.result()
+        if coords:
+            # Update results with retry coordinates
+            results[address] = coords
+        else:
+            print(f"Partial retry failed for address: {item['School'].split(',', 1)[-1].strip()}")
 
-# Save the cache
-with open(cache_output_path, 'wb') as f:
-    pickle.dump(geocode_cache, f)
+# Print results for debugging
+print("Results after retries:")
+for address, coords in results.items():
+    print(f"{address}: {coords}")
+
+# Map retry results back to original DataFrame
+# Ensure correct address formatting
+df['Retry Address'] = df['School'].apply(lambda x: x.split(',', 1)[-1].strip())
+df['Coordinates'] = df['Retry Address'].map(results)
+
+# Add coordinates for original addresses that were not retried
+# Ensure coordinates from initial geocoding are included
+df.loc[df['Coordinates'].isna(), 'Coordinates'] = df['Address'].map(results)
 
 # Drop rows where coordinates are None
 df_with_coords = df.dropna(subset=['Coordinates'])
@@ -89,26 +121,28 @@ def get_color(rank, total_ranks):
     return color_gradient[gradient_index]
 
 # Create a map
-map_center = df_with_coords['Coordinates'].iloc[0]  # Center map around the first school
-school_map = folium.Map(location=map_center, zoom_start=10)
+if not df_with_coords.empty:
+    map_center = df_with_coords['Coordinates'].iloc[0]  # Center map around the first school
+    school_map = folium.Map(location=map_center, zoom_start=10)
 
-# Add points to the map
-total_ranks = len(df_with_coords)
-for idx, row in df_with_coords.iterrows():
-    rank = int(row['Order'])
-    color = get_color(rank, total_ranks)
-    folium.CircleMarker(
-        location=row['Coordinates'],
-        radius=8,
-        color=color,
-        fill=True,
-        fill_color=color,
-        fill_opacity=0.7,
-        popup=f"Rank {rank}: {row['School']}\n{row['Postcode']}",
-        tooltip=f"Rank {rank}"
-    ).add_to(school_map)
+    # Add points to the map
+    total_ranks = len(df_with_coords)
+    for idx, row in df_with_coords.iterrows():
+        rank = int(row['Order'])
+        color = get_color(rank, total_ranks)
+        folium.CircleMarker(
+            location=row['Coordinates'],
+            radius=8,
+            color=color,
+            fill=True,
+            fill_color=color,
+            fill_opacity=0.7,
+            popup=f"Rank {rank}: {row['School']}\n{row['Postcode']}",
+            tooltip=f"Rank {rank}"
+        ).add_to(school_map)
 
-# Save the map to an HTML file
-school_map.save(map_output_path)
-
-print(f"Map has been saved to {map_output_path}")
+    # Save the map to an HTML file
+    school_map.save(map_output_path)
+    print(f"Map has been saved to {map_output_path}")
+else:
+    print("No valid coordinates to display on the map.")
