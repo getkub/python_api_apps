@@ -87,9 +87,9 @@ with ThreadPoolExecutor(max_workers=5) as executor:
             print(f"Partial retry failed for address: {item['School'].split(',', 1)[-1].strip()}")
 
 # Print results for debugging
-print("Results after retries:")
-for address, coords in results.items():
-    print(f"{address}: {coords}")
+# print("Results after retries:")
+# for address, coords in results.items():
+#     print(f"{address}: {coords}")
 
 # Map retry results back to original DataFrame
 # Ensure correct address formatting
