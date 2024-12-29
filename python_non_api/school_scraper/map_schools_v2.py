@@ -8,9 +8,9 @@ POSTCODE_DATA_PATH = "/tmp/australian_postcodes.csv"
 
 # Predefined color gradient from green to red
 COLOR_GRADIENT = [
-    "#00ff00", "#33ff00", "#66ff00", "#99ff00", "#ccff00", 
-    "#ffff00", "#ffcc00", "#ff9900", "#ff6600", "#ff3300", 
-    "#ff0000"
+    "#004d00", "#006600", "#007f00", "#009900", "#00b200", "#00cc00", "#00e500", "#00ff00", "#1aff00", "#33ff00",
+    "#4dff00", "#66ff00", "#7fff00", "#99ff00", "#b2ff00", "#ccff00", "#e5ff00", "#ffff00", "#ffcc00", "#ffaa00",
+    "#ff9900", "#ff8800", "#ff7700", "#ff6600", "#ff5500", "#ff4400", "#ff3300", "#ff2200", "#ff1100", "#ff0000"
 ]
 
 def load_postcode_cache(filepath):
