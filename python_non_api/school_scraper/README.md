@@ -38,6 +38,7 @@ python3 ${script_dir}/map_schools.py
 ### Using the version2 script with local mapping
 
 ```
+# Get Australia CSV from https://github.com/matthewproctor/australianpostcodes/blob/master/australian_postcodes.csv
 python3 ${script_dir}/cleanup_postcode.py
 python3 ${script_dir}/map_schools_v2.py
 ```
