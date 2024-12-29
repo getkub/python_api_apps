@@ -31,14 +31,14 @@ python3 ${script_dir}/filter_schools_vic.py
 ### GeoCode
 ```
 pip install geopy folium
-python ${script_dir}/map_schools.py
-
-```
-
-### Now map into Geo Locations
-
-```
-pip install geopy folium
 python3 ${script_dir}/map_schools.py
+
+```
+
+### Using the version2 script with local mapping
+
+```
+python3 ${script_dir}/cleanup_postcode.py
+python3 ${script_dir}/map_schools_v2.py
 ```
 
