@@ -1,22 +1,53 @@
 import sys
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import pandas as pd
 import time
 
-# Check if URL is passed as an argument
-if len(sys.argv) != 2:
-    print("Usage: python download_schools.py <url>")
+# Default browser paths for macOS
+DEFAULT_BROWSER_PATHS = {
+    "brave": "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser",
+    "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "edge": "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"
+}
+
+# Check command-line arguments
+if len(sys.argv) < 2:
+    print("Usage: python download_schools.py <url> [--browser <browser_name>] [--browser-path <path>]")
     sys.exit(1)
 
-# Get the URL from the command line argument
 url = sys.argv[1]
+browser_name = "brave"  # Default browser
+browser_path = DEFAULT_BROWSER_PATHS.get(browser_name)
+
+# Parse additional arguments
+for i in range(2, len(sys.argv), 2):
+    if sys.argv[i] == "--browser":
+        browser_name = sys.argv[i + 1].lower()
+        browser_path = DEFAULT_BROWSER_PATHS.get(browser_name, None)
+    elif sys.argv[i] == "--browser-path":
+        browser_path = sys.argv[i + 1]
+
+# Validate browser path
+if not browser_path or not os.path.exists(browser_path):
+    print(f"Error: Browser path '{browser_path}' for '{browser_name}' not found.")
+    print("Please provide a valid --browser-path or ensure the browser is installed.")
+    sys.exit(1)
 
 # Define the output path
 output_path = "/tmp/top_secondary_schools_full.csv"
 
-# Initialize WebDriver
-driver = webdriver.Chrome()
+# Set up Chrome options to use the specified browser
+chrome_options = Options()
+chrome_options.binary_location = browser_path
+
+# Initialize WebDriver with ChromeDriver and browser options
+driver = webdriver.Chrome(options=chrome_options)
+
+# Open the URL
 driver.get(url)
 
 # Wait for the page to load
