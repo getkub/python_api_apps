@@ -36,7 +36,7 @@ def load_postcode_cache(filepath):
     """Load Australian postcodes and their precise coordinates into a cache."""
     if not os.path.exists(filepath):
         download_postcode_data(POSTCODE_DATA_URL, filepath)
-    
+
     aus_postcodes_df = pd.read_csv(filepath)
     cache = {}
     for _, row in aus_postcodes_df.iterrows():
@@ -47,7 +47,7 @@ def load_postcode_cache(filepath):
             cache[postcode].append({
                 'lat': row['Lat_precise'],
                 'long': row['Long_precise'],
-                'locality': str(row['locality']).strip() if pd.notna(row['locality']) else ''
+                'locality': str(row['locality']).strip().lower() if pd.notna(row['locality']) else ''
             })
     return cache
 
@@ -55,7 +55,6 @@ def clean_postcode(postcode):
     """Clean postcode by removing non-numeric values and ensuring it's a valid 4-digit string."""
     if pd.isna(postcode) or not postcode:
         return None
-    # Remove any non-numeric characters and ensure it's a 4-digit postcode
     cleaned = re.sub(r'[^0-9]', '', str(postcode))
     return cleaned if len(cleaned) == 4 else None
 
@@ -63,31 +62,26 @@ def get_coords_with_jitter(postcode, suburb, cache, index=0):
     """Get precise coordinates for a postcode with a small jitter to avoid overlap."""
     postcode = clean_postcode(postcode)
     if not postcode:
-        print(f"Invalid postcode: {postcode}")
         return None
 
     coords_list = cache.get(postcode, [])
     if not coords_list:
-        print(f"No coordinates found for postcode: {postcode}")
         return None
 
-    # Try matching by suburb first
-    if suburb and isinstance(suburb, str) and suburb.strip():
-        suburb = suburb.strip().lower()
-        for entry in coords_list:
-            locality = entry['locality'].lower() if entry['locality'] else ''
-            if locality == suburb:
-                jitter = 0.005
-                lat_offset = jitter * (index % 3 - 1)
-                long_offset = jitter * (index // 3 - 1)
-                print(f"Matched suburb {suburb} for postcode {postcode}: {entry['lat'] + lat_offset}, {entry['long'] + long_offset}")
-                return entry['lat'] + lat_offset, entry['long'] + long_offset
+    suburb = suburb.strip().lower() if isinstance(suburb, str) else ''
 
-    # Fallback to first available coordinates for the postcode
+    for entry in coords_list:
+        locality = entry['locality']
+        if locality and (suburb == locality or suburb in locality or locality in suburb):
+            jitter = 0.005
+            lat_offset = jitter * (index % 3 - 1)
+            long_offset = jitter * (index // 3 - 1)
+            return entry['lat'] + lat_offset, entry['long'] + long_offset
+
+    # Fallback: return first entry with small jitter
     jitter = 0.00005
     lat_offset = jitter * (index % 3 - 1)
     long_offset = jitter * (index // 3 - 1)
-    print(f"Using fallback coordinates for postcode {postcode}: {coords_list[0]['lat'] + lat_offset}, {coords_list[0]['long'] + long_offset}")
     return coords_list[0]['lat'] + lat_offset, coords_list[0]['long'] + long_offset
 
 def get_color(rank, total_ranks):
@@ -98,14 +92,13 @@ def get_color(rank, total_ranks):
 def map_schools(df, postcode_cache):
     """Map schools to a folium map and save it."""
     melbourne_coords = (-37.8136, 144.9631)
-    school_map = folium.Map(location=melbourne_coords, zoom_start=14)
+    school_map = folium.Map(location=melbourne_coords, zoom_start=12)
 
     schools_mapped = 0
     total_schools = len(df)
     postcode_suburb_counters = {}
     unmapped_schools = []
 
-    # Clean and sort DataFrame
     df['Postcode'] = df['Postcode'].apply(clean_postcode)
     df_sorted = df.sort_values(['Suburb', 'Postcode'], na_position='last')
 
@@ -115,20 +108,17 @@ def map_schools(df, postcode_cache):
         school_name = row['School']
 
         if not postcode:
-            print(f"Warning: Skipping school {school_name} due to missing or invalid postcode.")
             unmapped_schools.append(school_name)
             continue
 
-        # Track schools by postcode and suburb
         if postcode not in postcode_suburb_counters:
             postcode_suburb_counters[postcode] = {}
         if suburb not in postcode_suburb_counters[postcode]:
             postcode_suburb_counters[postcode][suburb] = 0
         postcode_suburb_counters[postcode][suburb] += 1
 
-        # Get coordinates
         coords = get_coords_with_jitter(postcode, suburb, postcode_cache, postcode_suburb_counters[postcode][suburb])
-        
+
         if coords:
             color = get_color(row['Order'], total_schools)
             popup_content = f"""
@@ -137,7 +127,6 @@ def map_schools(df, postcode_cache):
             Sector: {row['Sector']}<br>
             SES: {row['SES'] if pd.notna(row['SES']) else 'N/A'}
             """
-            print(f"Matched {school_name} at {coords} with suburb {suburb}, postcode {postcode}")
             folium.CircleMarker(
                 location=coords,
                 radius=8,
@@ -150,15 +139,15 @@ def map_schools(df, postcode_cache):
             ).add_to(school_map)
             schools_mapped += 1
         else:
-            print(f"Warning: School {school_name} with postcode {postcode} and suburb {suburb} could not be mapped.")
             unmapped_schools.append(school_name)
 
-    # Save map and log results
     school_map.save(MAP_OUTPUT_PATH)
     print(f"Mapped {schools_mapped} out of {total_schools} schools.")
     if unmapped_schools:
-        print(f"The following schools could not be mapped: {', '.join(unmapped_schools)}")
-    print(f"Map has been saved to {MAP_OUTPUT_PATH}")
+        print("Unmapped schools:")
+        for s in unmapped_schools:
+            print(f" - {s}")
+    print(f"Map saved to {MAP_OUTPUT_PATH}")
 
 # Main execution
 if __name__ == "__main__":
