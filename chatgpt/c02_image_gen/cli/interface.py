@@ -27,10 +27,15 @@ class CLIInterface:
             
             if args.list_prompts:
                 self.list_handler.handle(args)
+            elif args.image and args.prompt:
+                # Direct mode: both image and prompt provided
+                self.direct_handler.handle(args)
             elif args.interactive:
+                # Explicit interactive mode
                 self.interactive_handler.handle(args)
             else:
-                self.direct_handler.handle(args)
+                # Default to interactive if no direct arguments
+                self.interactive_handler.handle(args)
                 
         except KeyboardInterrupt:
             print("\n⚠️  Operation cancelled by user")

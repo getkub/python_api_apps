@@ -45,18 +45,11 @@ class InteractiveHandler(BaseHandler):
         print("🎨 === OpenAI Image Editor - Interactive Mode ===")
         print()
         
-        # Get API key
-        try:
-            api_key = self.auth_manager.get_api_key_interactive(args.config, args.verbose)
-        except Exception as e:
-            print(f"❌ Error getting API key: {e}")
-            sys.exit(1)
-        
-        # Show available prompts
-        print("\n📋 Available prompts:")
+        # Show available prompts first
+        print("📋 Available prompts:")
         self.prompt_manager.list_prompts()
         
-        # Get user inputs
+        # Get user inputs for files first
         prompt_path = self._get_input_with_default(
             "📄 Enter path to YAML prompt file", 
             "prompts/p01_bedroom_master.yml"
@@ -70,6 +63,14 @@ class InteractiveHandler(BaseHandler):
         
         if not image_path:
             print("❌ Image file path is required")
+            sys.exit(1)
+        
+        # Get API key AFTER file inputs
+        print()  # Add some spacing
+        try:
+            api_key = self.auth_manager.get_api_key_interactive(args.config, args.verbose)
+        except Exception as e:
+            print(f"❌ Error getting API key: {e}")
             sys.exit(1)
         
         # Process the image

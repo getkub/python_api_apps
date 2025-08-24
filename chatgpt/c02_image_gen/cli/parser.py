@@ -50,16 +50,8 @@ Examples:
         
         parser.add_argument(
             "--interactive", 
-            action="store_true", 
-            default=True,
-            help="Run in interactive mode (default)"
-        )
-        
-        parser.add_argument(
-            "--no-interactive", 
-            dest="interactive", 
-            action="store_false",
-            help="Disable interactive mode"
+            action="store_true",
+            help="Force interactive mode"
         )
         
         parser.add_argument(
