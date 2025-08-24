@@ -1,0 +1,5 @@
+requests
+pyyaml
+# fastapi and uvicorn can be uncommented when adding the API backend
+# fastapi
+# uvicorn

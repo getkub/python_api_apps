@@ -1,0 +1,15 @@
+prompt: >
+  Modern minimalistic bedroom with a king-sized bed, 
+  a wooden nightstand, warm lighting, and simple, elegant décor.
+
+metadata:
+  room:
+    type: bedroom
+    subtype: master
+  colors:
+    walls: blue
+    windows: white
+
+output: "/tmp/c02/decorated_bedroom.png"
+size: "512x512"
+variations: 1
