@@ -149,3 +149,4 @@ cython_debug/
 
 ## python_non_api
 python_non_api/pptx_generator/outputs/*
+python_non_api/pptx_generator/templates/*
