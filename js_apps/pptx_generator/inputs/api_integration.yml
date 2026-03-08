@@ -1,0 +1,55 @@
+title: API Integration
+
+slides:
+  - title: Overview
+    content:
+      - "Code to integrate and call various python snippets as API"
+      - "Provides RESTful API endpoints for Python functionality"
+      - "Easy integration with web applications and services"
+
+  - title: Getting Started
+    content:
+      - "Navigate to Examples Directory"
+      - "Install required dependencies"
+      - "Run the API server"
+      - "Access the web interface"
+
+  - title: Setup Instructions
+    content:
+      - "Change to examples directory:"
+      - "cd api/examples"
+      - "Install Python dependencies:"
+      - "pip3 install -r requirements.txt"
+
+  - title: Running Examples
+    content:
+      - "Start the API server with uvicorn"
+      - "Example command:"
+      - "uvicorn 03_distributor:app --reload"
+      - "Server runs in development mode with auto-reload"
+
+  - title: Accessing the Interface
+    content:
+      - "Web UI available at:"
+      - "http://localhost:8000/"
+      - "Interactive API documentation"
+      - "Test endpoints directly from browser"
+
+  - title: Available Examples
+    content:
+      - "01_helloworld.py - Basic Hello World API"
+      - "02_remote_code.py - Remote code execution"
+      - "03_distributor.py - Task distribution system"
+      - "06_gui.py - GUI integration"
+      - "07_react_gui.py - React frontend integration"
+      - "09_csv_gui.py - CSV processing with GUI"
+      - "20_ml1.py - Machine learning integration"
+
+  - title: Benefits
+    content:
+      - "Easy Python code integration"
+      - "RESTful API design"
+      - "Web-based interface"
+      - "Multiple frontend options"
+      - "Scalable architecture"
+      - "Real-time processing capabilities"
