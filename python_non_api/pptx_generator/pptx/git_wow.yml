@@ -1,0 +1,34 @@
+title: GitHub Ways of Working
+output: github_wow_training.pptx
+
+slides:
+  - title: GitHub Workflow
+    content:
+      - "Branch-based development"
+      - "Create Branch → Commit → Pull Request → Merge"
+      - "Protect main branch"
+
+  - title: Why This Workflow
+    content:
+      - "Prevent breaking main"
+      - "Enable team collaboration"
+      - "Ensure code reviews"
+
+  - title: Step 1 - Create Branch
+    content:
+      - "Pull latest main"
+      - "Create feature branch"
+      - "Example:"
+      - "git checkout -b feature/my-update"
+
+  - title: Step 2 - Commit and Push
+    content:
+      - "Work inside your branch"
+      - "Commit changes"
+      - "Push branch to remote"
+
+  - title: Step 3 - Pull Request
+    content:
+      - "Open PR in GitHub"
+      - "Review by team"
+      - "Merge into main"
