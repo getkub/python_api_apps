@@ -1,0 +1,48 @@
+title: GitHub Ways of Working
+output: github_wow_training.pptx
+subtitle: "Branch · Review · Merge · Ship"
+
+slides:
+  - title: GitHub Workflow
+    content:
+      - "Branch-based development — the GitHub way"
+      - "Create Branch"
+      - "Commit Changes"
+      - "Pull Request"
+      - "Merge"
+    keyPoint: "🔒  Protect main branch — all changes must flow through a Pull Request and review process"
+
+  - title: Why This Workflow
+    content:
+      - "Prevent Breaking Main: Feature branches isolate work-in-progress. Main stays stable and deployable at all times."
+      - "Enable Team Collaboration: Multiple devs work in parallel without conflicts. Clear ownership of each feature."
+      - "Ensure Code Reviews: Every change gets peer review before merge. Catch bugs early, share knowledge, improve quality."
+
+  - title: Step 1 - Create Branch
+    content:
+      - "Pull latest main"
+      - "Create a named feature branch"
+      - "Name it clearly"
+      - "# Pull latest main"
+      - "git checkout main"
+      - "git pull origin main"
+      - "# Create feature branch"
+      - "git checkout -b feature/my-update"
+
+  - title: Step 2 - Commit and Push
+    content:
+      - "Work inside your branch — not on main"
+      - "Commit changes with clear messages"
+      - "Push branch to remote (GitHub)"
+      - "# Stage & commit"
+      - "git add ."
+      - "git commit -m \"feat: add login form\""
+      - "# Push to GitHub"
+      - "git push origin feature/my-update"
+
+  - title: Step 3 - Pull Request
+    content:
+      - "Open PR in GitHub"
+      - "Team Reviews Code"
+      - "Merge into Main"
+      - "PRs are the gate to main. No direct pushes — every change is visible, reviewable, and auditable."
