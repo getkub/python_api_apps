@@ -1,0 +1,77 @@
+title: "Python for Data Analysts"
+subtitle: "From spreadsheets to superpowers — no experience needed"
+theme: education
+
+slides:
+  - title: "What We'll Cover Today"
+    layout: agenda
+    content:
+      - "Why Python? The case for moving beyond Excel"
+      - "Your First Script: Hello, Data!"
+      - "Reading & Exploring Data with Pandas"
+      - "Cleaning Messy Data (the real 80% of the job)"
+      - "Your First Visualisation with Matplotlib"
+      - "Exercise & Q&A"
+
+  - title: "Why Python?"
+    layout: three-panel
+    icons: ["⚡", "♻️", "🌍"]
+    content:
+      - "Speed: Analyse a million rows in seconds — Excel crashes at 100,000"
+      - "Reusable: Write it once, run it every Monday morning automatically"
+      - "Universal: The same language used by Netflix, NASA, and your future employer"
+      - "And it's free. Forever."
+
+  - title: "What You'll Be Able to Do"
+    layout: stat-callout
+    keyPoint: "Based on cohort outcomes from the previous 6 intakes of this programme."
+    content:
+      - "3 hrs: Time saved per week on manual reporting (average across past cohorts)"
+      - "94%: Of graduates automated at least one recurring task within 30 days"
+      - "4 weeks: Average time to first working script from zero experience"
+
+  - title: "Your First Script"
+    layout: code
+    content:
+      - "Open your terminal and type python3"
+      - "You'll see a prompt — this is where Python listens"
+      - "python3"
+      - "print('Hello, Data!')"
+      - "# Python executes immediately — no compile step"
+      - "# You should see:  Hello, Data!"
+
+  - title: "Reading Data with Pandas"
+    layout: code
+    content:
+      - "Pandas is the most important library you'll learn today"
+      - "It turns your CSV into a smart, queryable table"
+      - "pip install pandas"
+      - "import pandas as pd"
+      - "# Load your CSV — replace with your file path"
+      - "cd ~/Documents/data"
+      - "python3"
+
+  - title: "Excel vs Python"
+    layout: two-column
+    content:
+      leftLabel: "In Excel"
+      left:
+        - "Open file manually each time"
+        - "Point-and-click filter"
+        - "Copy-paste to new sheet"
+        - "Format manually"
+        - "Email the result"
+      rightLabel: "In Python"
+      right:
+        - "df = pd.read_csv('file.csv')"
+        - "df[df['sales'] > 1000]"
+        - "df.groupby('region').sum()"
+        - "df.to_excel('report.xlsx')"
+        - "Runs on a schedule automatically"
+
+  - title: "A Student's Experience"
+    layout: quote
+    content:
+      - "I was terrified of code. By week three I had automated my entire Monday morning report. My manager thought I had hired someone."
+      - "Priya Nair, Financial Analyst"
+      - "Cohort 5, 2023 — now teaches the intro session herself"

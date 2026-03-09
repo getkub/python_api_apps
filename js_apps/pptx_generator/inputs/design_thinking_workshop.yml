@@ -1,0 +1,65 @@
+title: "Design Thinking Workshop"
+subtitle: "Empathise · Define · Ideate · Prototype · Test"
+theme: creative-agency
+
+slides:
+  - title: "Today's Journey"
+    layout: agenda
+    content:
+      - "What is Design Thinking?"
+      - "Empathy: Understanding Real Users"
+      - "Define: Framing the Right Problem"
+      - "Ideate: Generating Bold Ideas"
+      - "Prototype & Test: Learning Fast"
+      - "Group Exercise & Debrief"
+
+  - title: "The Five Modes"
+    layout: flow
+    content:
+      - "A non-linear, human-centred approach to creative problem solving"
+      - "Empathise"
+      - "Define"
+      - "Ideate"
+      - "Prototype & Test"
+
+  - title: "Good Design vs Great Design"
+    layout: two-column
+    content:
+      leftLabel: "Good Design"
+      left:
+        - "Solves the stated problem"
+        - "Meets requirements"
+        - "Works as specified"
+        - "Delivered on time"
+        - "Users can use it"
+      rightLabel: "Great Design"
+      right:
+        - "Solves the real problem"
+        - "Reframes the question"
+        - "Delights unexpectedly"
+        - "Delivered iteratively"
+        - "Users love it"
+
+  - title: "Famous Design Thinking Wins"
+    layout: stat-callout
+    keyPoint: "Design-led companies outperform the S&P 500 by 219% over 10 years — McKinsey Design Index."
+    content:
+      - "219%: Design-led company outperformance vs S&P 500"
+      - "32%: Higher revenue growth for top design performers"
+      - "56%: Higher total returns to shareholders"
+
+  - title: "Heard in User Research"
+    layout: quote
+    content:
+      - "I don't want a faster horse. I want to get somewhere without the journey being painful."
+      - "Participant 7, Discovery Research"
+      - "Reframed entire product direction for Q2"
+
+  - title: "Your Brief Today"
+    layout: cards
+    content:
+      - "Challenge: Redesign the new-employee onboarding experience for a remote-first company"
+      - "Constraint: No budget for new tools — use what exists today"
+      - "User: A nervous first-day hire who has never met their manager in person"
+      - "Output: One testable prototype concept by end of session"
+      - "Time: 90 minutes — use it ruthlessly"

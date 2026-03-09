@@ -61,6 +61,9 @@ function addSectionLabel(slide, label, color) {
 
 // ─── Content type detection (shared logic, theme-agnostic) ───────────────────
 
+const { detectContentType } = require('../_base');
+const L = require('../_layouts');
+
 function detectContentType(content) {
   const codePatterns = /^(git |npm |pip |cd |ls |curl |node |python|uvicorn|http)/i;
   if (content.filter(c => codePatterns.test(c.trim())).length >= 2) return 'code';

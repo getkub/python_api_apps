@@ -1,48 +1,85 @@
-title: GitHub Ways of Working
-output: github_wow_training.pptx
+title: "GitHub Ways of Working"
 subtitle: "Branch · Review · Merge · Ship"
+theme: github-dark
 
 slides:
-  - title: GitHub Workflow
+  - title: "GitHub Workflow"
+    layout: flow
+    keyPoint: "🔒 Protect main — all changes must flow through a Pull Request and review process."
     content:
       - "Branch-based development — the GitHub way"
       - "Create Branch"
       - "Commit Changes"
-      - "Pull Request"
-      - "Merge"
-    keyPoint: "🔒  Protect main branch — all changes must flow through a Pull Request and review process"
+      - "Open Pull Request"
+      - "Merge to Main"
 
-  - title: Why This Workflow
+  - title: "Why This Workflow"
+    layout: cards
     content:
       - "Prevent Breaking Main: Feature branches isolate work-in-progress. Main stays stable and deployable at all times."
       - "Enable Team Collaboration: Multiple devs work in parallel without conflicts. Clear ownership of each feature."
       - "Ensure Code Reviews: Every change gets peer review before merge. Catch bugs early, share knowledge, improve quality."
 
-  - title: Step 1 - Create Branch
+  - title: "Branch vs Direct Push"
+    layout: two-column
     content:
-      - "Pull latest main"
-      - "Create a named feature branch"
-      - "Name it clearly"
+      leftLabel: "Direct Push to Main ❌"
+      left:
+        - "Breaks CI/CD for everyone"
+        - "No peer review or audit trail"
+        - "Conflicts resolved under pressure"
+        - "Impossible to roll back cleanly"
+      rightLabel: "Feature Branch + PR ✅"
+      right:
+        - "Main always deployable"
+        - "Every change is reviewed & logged"
+        - "Conflicts caught early in isolation"
+        - "Clean revert with one command"
+
+  - title: "Step 1 - Create Branch"
+    layout: code
+    content:
+      - "Always start from the latest main"
+      - "Name branches clearly — use the ticket or feature name"
+      - "One branch per feature or fix"
       - "# Pull latest main"
       - "git checkout main"
       - "git pull origin main"
-      - "# Create feature branch"
+      - "# Create and switch to feature branch"
       - "git checkout -b feature/my-update"
 
-  - title: Step 2 - Commit and Push
+  - title: "Step 2 - Commit and Push"
+    layout: code
     content:
-      - "Work inside your branch — not on main"
-      - "Commit changes with clear messages"
-      - "Push branch to remote (GitHub)"
-      - "# Stage & commit"
+      - "Work entirely inside your branch — never commit to main directly"
+      - "Write clear commit messages — future you will thank present you"
+      - "# Stage your changes"
       - "git add ."
-      - "git commit -m \"feat: add login form\""
-      - "# Push to GitHub"
+      - "git commit -m \"feat: add login form validation\""
+      - "# Push branch to GitHub"
       - "git push origin feature/my-update"
 
-  - title: Step 3 - Pull Request
+  - title: "Step 3 - Pull Request"
+    layout: three-panel
+    icons: ["📂", "👁️", "✅"]
     content:
-      - "Open PR in GitHub"
-      - "Team Reviews Code"
-      - "Merge into Main"
+      - "Open PR: Create the PR in GitHub, add a clear description, and link to the ticket"
+      - "Review: Teammates read the diff, leave comments, request changes, and approve"
+      - "Merge: Once approved and CI passes, squash-merge into main and delete the branch"
       - "PRs are the gate to main. No direct pushes — every change is visible, reviewable, and auditable."
+
+  - title: "Good PR Habits"
+    layout: steps
+    content:
+      - "Keep PRs small — under 400 lines of diff is ideal. Easier to review, faster to merge."
+      - "Write a useful description — what changed, why, and how to test it."
+      - "Respond to review comments within one working day to keep momentum."
+      - "Don't merge your own PR — always get at least one approval from a teammate."
+      - "Delete the branch after merge to keep the repository clean."
+
+  - title: "What Teams Tell Us"
+    layout: quote
+    content:
+      - "We went from weekly deploy nightmares to shipping multiple times a day. The branch workflow was the single biggest change we made."
+      - "Platform Engineering Lead — Series B Fintech"
+      - "Adopted GitHub flow after two consecutive failed releases"

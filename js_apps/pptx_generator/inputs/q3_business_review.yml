@@ -1,0 +1,65 @@
+title: "Q3 Business Review"
+subtitle: "Performance · Outlook · Decisions"
+theme: financial
+
+slides:
+  - title: "Agenda"
+    layout: agenda
+    content:
+      - "Q3 Financial Performance"
+      - "Market & Competitive Position"
+      - "Operational Highlights"
+      - "Risks & Mitigations"
+      - "Q4 Outlook & Budget"
+
+  - title: "Q3 At a Glance"
+    layout: stat-callout
+    keyPoint: "All three metrics exceeded board targets for the first time in six quarters."
+    content:
+      - "$142M: Revenue"
+      - "34%: Gross Margin"
+      - "18%: YoY Growth"
+      - "2.4x: ARR Multiple"
+
+  - title: "Revenue vs Prior Year"
+    layout: two-column
+    content:
+      leftLabel: "Q3 Last Year"
+      left:
+        - "Revenue: $121M"
+        - "Margin: 29%"
+        - "New Logos: 14"
+        - "Churn: 4.2%"
+        - "Headcount: 380"
+      rightLabel: "Q3 This Year"
+      right:
+        - "Revenue: $142M ↑"
+        - "Margin: 34% ↑"
+        - "New Logos: 23 ↑"
+        - "Churn: 2.8% ↓"
+        - "Headcount: 412"
+
+  - title: "What Drove Growth"
+    layout: three-panel
+    icons: ["💰", "🌍", "🤝"]
+    content:
+      - "Enterprise Upsell: Existing customers expanded average contract value by 28%"
+      - "APAC Expansion: New regional office contributed $18M in first full quarter"
+      - "Partner Channel: Reseller programme now accounts for 22% of new bookings"
+      - "Combined effect delivered the strongest Q3 in company history."
+
+  - title: "Client Perspective"
+    layout: quote
+    content:
+      - "The platform has fundamentally changed how our finance team operates. We closed books three days faster this quarter."
+      - "Sarah Chen, CFO — Meridian Group"
+      - "Meridian expanded their contract by 3x in Q3"
+
+  - title: "Q4 Priorities"
+    layout: cards
+    content:
+      - "Pipeline: Close $45M in identified enterprise opportunities before year-end"
+      - "Product: Ship payments module — key blocker for four strategic accounts"
+      - "Hiring: Fill 12 open engineering roles to support platform scaling"
+      - "Retention: Deploy success plans for all accounts over $500K ARR"
+      - "Compliance: Complete SOC 2 Type II audit by November"

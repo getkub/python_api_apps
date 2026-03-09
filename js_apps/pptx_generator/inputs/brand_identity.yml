@@ -1,0 +1,68 @@
+title: "Brand Identity Guidelines"
+subtitle: "How we look, sound, and feel"
+theme: minimal-mono
+
+slides:
+  - title: "Contents"
+    layout: agenda
+    content:
+      - "Our Brand Idea"
+      - "Voice & Tone"
+      - "Typography System"
+      - "Colour Palette"
+      - "What We Never Do"
+      - "In Practice"
+
+  - title: "The Brand Idea"
+    layout: image-text
+    hero: "◆"
+    content:
+      - "We believe clarity is a form of respect"
+      - "Every word, colour, and space is a choice — we make those choices deliberately"
+      - "Our brand doesn't shout. It holds its ground."
+      - "Restraint is our differentiator in a world of noise"
+
+  - title: "Our Voice"
+    layout: three-panel
+    icons: ["✦", "◼", "→"]
+    content:
+      - "Direct: We say what we mean. No hedging, no qualifiers, no corporate filler."
+      - "Considered: We earn the reader's attention by respecting it. Every sentence pulls its weight."
+      - "Human: We write like a smart person talking to another smart person — not like a brand."
+      - "Read every line aloud. If it sounds like a press release, rewrite it."
+
+  - title: "Type Hierarchy"
+    layout: cards
+    content:
+      - "Display (72pt+): Headlines only — one per page, maximum weight, maximum whitespace"
+      - "Title (32–48pt): Section openers — bold, sentence case, never all-caps in running text"
+      - "Body (14–16pt): Calibri or equivalent — line height 1.5, max 12 words per line"
+      - "Caption (10–12pt): Attribution, footnotes — muted, never italic in UI contexts"
+      - "Code (11pt Consolas): Technical content only — monospace, never mixed with body in same block"
+
+  - title: "What We Never Do"
+    layout: two-column
+    content:
+      leftLabel: "Never"
+      left:
+        - "Use more than 2 typefaces"
+        - "Use gradients"
+        - "Centre-align body text"
+        - "Use more than 3 colours on one slide"
+        - "Add drop shadows to text"
+        - "Use clip art or stock photos with people"
+      rightLabel: "Instead"
+      right:
+        - "One family, varied weights"
+        - "Solid, deliberate colour blocks"
+        - "Left-align everything"
+        - "One primary + one accent maximum"
+        - "Use whitespace to create hierarchy"
+        - "Use geometry, texture, or typography"
+
+  - title: "On Simplicity"
+    layout: quote
+    content:
+      - "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away."
+      - "Antoine de Saint-Exupéry"
+      - "The principle behind every brand decision we make"

@@ -49,13 +49,8 @@ function addTopBar(slide, pres, color) {
 
 // ─── Content type detection ───────────────────────────────────────────────────
 
-function detectContentType(content) {
-  const codePatterns = /^(git |npm |pip |cd |ls |curl |node |python|uvicorn|http)/i;
-  if (content.filter(c => codePatterns.test(c.trim())).length >= 2) return 'code';
-  if (content.filter(c => /^step\s*\d|^\d+[.)]/i.test(c.trim())).length >= 2) return 'steps';
-  if (content.length >= 4 && content.every(c => c.length < 60)) return 'cards';
-  return 'bullets';
-}
+const { detectLayout } = require('../_base');
+const L = require('../_layouts');
 
 // ─── Layout functions ─────────────────────────────────────────────────────────
 
@@ -262,20 +257,12 @@ function threePanelLayout(slide, pres, slideData, accentColor, stepIndex) {
 
 // ─── Layout assignment ────────────────────────────────────────────────────────
 
+const SUPPORTED = ['flow','cards','steps','code','two-column','stat-callout','quote','three-panel','agenda','image-text','bullets'];
+
 function assignLayouts(slides) {
   let lastLayout = null;
   return slides.map((slide, i) => {
-    const type  = detectContentType(slide.content);
-    const title = slide.title.toLowerCase();
-    let layout;
-
-    if (type === 'code') layout = 'code';
-    else if (i === 0 && slide.content.length >= 3) layout = 'flow';
-    else if (slide.content.length === 3 && (title.includes('request') || title.includes('merge'))) layout = 'threepanel';
-    else if (slide.content.length >= 5) layout = 'cards';
-    else layout = lastLayout === 'cards' ? 'steps' : 'cards';
-
-    if (layout === lastLayout && layout !== 'code') layout = layout === 'cards' ? 'steps' : 'cards';
+    const layout = detectLayout(slide, i, lastLayout, SUPPORTED);
     lastLayout = layout;
     return layout;
   });
@@ -286,18 +273,14 @@ function assignLayouts(slides) {
 function renderTitleSlide(slide, pres, config) { titleSlide(slide, pres, config); }
 
 function renderContentSlide(slide, pres, slideData, layoutKey, slideIndex) {
-  const accent    = ACCENT_CYCLE[slideIndex % ACCENT_CYCLE.length];
-  const stepMatch = slideData.title.match(/step\s*(\d+)/i);
-  const stepNum   = stepMatch ? parseInt(stepMatch[1]) : null;
-
-  switch (layoutKey) {
-    case 'flow':       flowLayout(slide, pres, slideData, accent); break;
-    case 'threepanel': threePanelLayout(slide, pres, slideData, accent, stepNum); break;
-    case 'code':       codeLayout(slide, pres, slideData, accent, stepNum); break;
-    case 'steps':      stepsLayout(slide, pres, slideData, accent); break;
-    case 'cards':
-    default:           cardsLayout(slide, pres, slideData, accent); break;
-  }
+  L.render(layoutKey, slide, pres, slideData, ACCENT_CYCLE[slideIndex % ACCENT_CYCLE.length], {
+    bg: 'FAFAFA', cardBg: 'FFFFFF', titleColor: '1A1A2E', text: '1A1A2E',
+    muted: '7A869A', onAccent: 'FFFFFF', accent: 'F96167', secondary: '028090', tertiary: '2F3C7E',
+    footerBg: '1A1A2E', footerText: '7A869A', footerLabel: 'Startup Bold — Confidential',
+    fontHead: 'Trebuchet MS', fontBody: 'Calibri',
+    codeBg: '1A1A2E', codeHeader: '111122', codeBorder: 'E8ECF0',
+    codeMuted: '7A869A', codeComment: '7A869A', codeGreen: 'F96167', codeBlue: '028090', codeDefault: '1A1A2E',
+  });
 }
 
 module.exports = { assignLayouts, renderTitleSlide, renderContentSlide };
