@@ -1,0 +1,73 @@
+title: "Patient Onboarding Protocol"
+subtitle: "Safe · Consistent · Compassionate"
+theme: healthcare
+
+slides:
+  - title: "Today's Session"
+    layout: agenda
+    content:
+      - "Why Onboarding Matters"
+      - "Before the Appointment"
+      - "Arrival & Registration"
+      - "Clinical Assessment Flow"
+      - "Consent & Documentation"
+      - "Escalation Pathways"
+
+  - title: "Why This Protocol Exists"
+    layout: three-panel
+    icons: ["🛡️", "📋", "❤️"]
+    content:
+      - "Safety: Consistent intake reduces medication errors and missed allergy flags by 64%"
+      - "Compliance: Meets CQC fundamental standards and GDPR requirements for patient data"
+      - "Experience: Patients who feel informed at admission report 40% higher satisfaction scores"
+      - "Introduced following 2023 audit recommendations across all sites."
+
+  - title: "Outcomes Since Rollout"
+    layout: stat-callout
+    keyPoint: "Measured over 12 months across three sites. Source: Clinical Governance Report 2024."
+    content:
+      - "64%: Fewer medication errors at admission"
+      - "40%: Improvement in patient satisfaction"
+      - "18 min: Average reduction in registration time"
+      - "99.2%: Consent form completion rate"
+
+  - title: "Step 1 - Before the Appointment"
+    layout: steps
+    content:
+      - "Send appointment confirmation with pre-assessment questionnaire link (48 hrs prior)"
+      - "Review returned questionnaire for red-flag conditions before the visit"
+      - "Flag complex cases to senior clinician for pre-consultation briefing"
+      - "Confirm interpreter or accessibility requirements and arrange support"
+
+  - title: "Step 2 - Arrival & Registration"
+    layout: steps
+    content:
+      - "Greet patient by name — confirm date of birth and address, not just name"
+      - "Issue wristband immediately; scan and link to EPR record"
+      - "Escort to assessment bay — do not leave confused or distressed patients unaccompanied"
+      - "Offer information leaflet in patient's preferred language"
+
+  - title: "Old vs New Process"
+    layout: two-column
+    content:
+      leftLabel: "Previous Process"
+      left:
+        - "Paper forms completed on arrival"
+        - "Manual data entry into EPR"
+        - "Allergy check done verbally only"
+        - "Consent obtained ad-hoc"
+        - "No escalation pathway defined"
+      rightLabel: "New Protocol"
+      right:
+        - "Digital pre-assessment 48hrs prior"
+        - "Auto-import to EPR on arrival"
+        - "Allergy alert auto-displayed on screen"
+        - "Standardised e-consent workflow"
+        - "Clear escalation triage tree"
+
+  - title: "What Patients Tell Us"
+    layout: quote
+    content:
+      - "I felt informed and in safe hands from the moment I arrived. The staff already knew what I needed."
+      - "Anonymous Patient Feedback — Site B"
+      - "Collected via NHS Friends & Family Test, March 2024"

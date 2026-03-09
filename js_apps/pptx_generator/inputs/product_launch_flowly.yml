@@ -1,0 +1,63 @@
+title: "Introducing Flowly"
+subtitle: "The AI-native workflow platform that ships itself"
+theme: startup-bold
+
+slides:
+  - title: "The Problem"
+    layout: three-panel
+    icons: ["😩", "🔀", "🐌"]
+    content:
+      - "Context switching: Developers lose 4+ hours daily jumping between 12 tools to track a single feature"
+      - "Broken handoffs: 60% of sprint delays happen at the boundary between product, eng, and QA"
+      - "Zero visibility: Managers can't see real progress until it's too late to course-correct"
+      - "Current tools were built for process. Flowly is built for flow."
+
+  - title: "Flowly by the Numbers"
+    layout: stat-callout
+    keyPoint: "Based on 90-day beta with 40 engineering teams across Series A–C companies."
+    content:
+      - "4.2 hrs: Daily focus time recovered per engineer"
+      - "73%: Fewer status meetings"
+      - "2.8x: Faster time-to-merge"
+      - "NPS 71: vs industry average of 28"
+
+  - title: "How It Works"
+    layout: flow
+    content:
+      - "Connect your stack in 4 minutes — GitHub, Jira, Slack, Linear out of the box"
+      - "Flowly maps your actual workflow"
+      - "AI surfaces blockers before they happen"
+      - "Teams ship — no standups required"
+
+  - title: "Before vs After"
+    layout: two-column
+    content:
+      leftLabel: "Without Flowly"
+      left:
+        - "12 tabs open at once"
+        - "Manual status updates"
+        - "Surprise delays at QA"
+        - "Weekly reporting takes 3 hrs"
+        - "Onboarding takes 3 weeks"
+      rightLabel: "With Flowly"
+      right:
+        - "One unified view"
+        - "Auto-generated progress"
+        - "Blockers flagged 48hrs early"
+        - "Reports generated instantly"
+        - "Onboarding in 4 minutes"
+
+  - title: "What Early Users Say"
+    layout: quote
+    content:
+      - "We cancelled four recurring meetings in the first week. The team is happier and we're shipping faster."
+      - "Marco Pellegrini, VP Engineering — Kairo Labs"
+      - "Kairo reduced time-to-deploy by 3.1x in 60 days"
+
+  - title: "The Ask"
+    layout: cards
+    content:
+      - "Raise: $8M Seed to fund GTM, hire 6 engineers, and close 50 design partners"
+      - "Runway: 24 months to $3M ARR and Series A readiness"
+      - "Traction: 40 beta teams, 3 LOIs, pipeline of $1.2M ARR"
+      - "Team: Ex-Atlassian, Linear, and Figma — we've lived this problem"
