@@ -9,7 +9,7 @@
 const PptxGenJS = require('pptxgenjs');
 const fs        = require('fs');
 const path      = require('path');
-const { assignLayouts, renderTitleSlide, renderContentSlide } = require('./slide-designer');
+const { setTheme, assignLayouts, renderTitleSlide, renderContentSlide } = require('./slide-designer');
 
 class PPTXGenerator {
   /**
@@ -31,8 +31,9 @@ class PPTXGenerator {
    * @param {string|null} templatePath - Optional .pptx template (for colour themes only)
    * @returns {Promise<string>}        - Resolved output path
    */
-  async generatePresentation(config, outputPath) {
-    this.log(`Generating: ${config.title}`);
+  async generatePresentation(config, outputPath, theme) {
+    this.log(`Generating: ${config.title} [theme: ${theme || "github-dark"}]`);
+    setTheme(theme);
 
     const pptx = new PptxGenJS();
     pptx.layout = 'LAYOUT_16x9';
@@ -70,7 +71,7 @@ class PPTXGenerator {
    * @param {string|null} templatePath - Passed through (unused in designer mode)
    * @returns {Promise<string[]>}      - Paths of generated files
    */
-  async generateBatch(inputDir, outputDir, templatePath = null) {
+  async generateBatch(inputDir, outputDir, templatePath = null, theme) {
     const inputPath  = path.resolve(inputDir);
     const outputPath = path.resolve(outputDir);
 
@@ -88,7 +89,7 @@ class PPTXGenerator {
       try {
         const config     = require('./config-parser').parseConfig(yamlFile);
         const outputFile = path.join(outputPath, `${path.basename(yamlFile, path.extname(yamlFile))}.pptx`);
-        const result     = await this.generatePresentation(config, outputFile, templatePath);
+        const result     = await this.generatePresentation(config, outputFile, theme);
         results.push(result);
       } catch (err) {
         this.log(`Error processing ${yamlFile}: ${err.message}`);

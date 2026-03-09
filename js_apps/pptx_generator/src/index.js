@@ -13,6 +13,7 @@ const program = (() => {
       case '-D': case '--output-dir':  opts.outputDir  = args[++i]; break;
       case '-l': case '--layout':      opts.layout     = parseInt(args[++i]); break;
       case '-v': case '--verbose':     opts.verbose    = true; break;
+      case '--theme':                opts.theme      = args[++i]; break;
       case '--version':                console.log('1.0.0'); process.exit(0); break;
       case '--help': case '-h':
         console.log(`
@@ -29,6 +30,7 @@ Options:
   -D, --output-dir <dir>   Batch: output directory
   -l, --layout <n>         Layout number (unused in designer mode)
   -v, --verbose            Verbose output
+  --theme <name>           Design theme (default: github-dark)
   --version                Show version
   --help                   Show this help
 
@@ -87,10 +89,9 @@ async function processSingleFile(generator, options) {
   
   // Generate presentation
   const result = await generator.generatePresentation(
-    config, 
-    outputPath, 
-    options.template, 
-    options.layout
+    config,
+    outputPath,
+    options.theme
   );
   
   console.log(`Successfully generated: ${result}`);
@@ -98,10 +99,10 @@ async function processSingleFile(generator, options) {
 
 async function processBatch(generator, options) {
   const results = await generator.generateBatch(
-    options.inputDir, 
-    options.outputDir, 
-    options.template, 
-    options.layout
+    options.inputDir,
+    options.outputDir,
+    options.template,
+    options.theme
   );
   
   if (results.length > 0) {
