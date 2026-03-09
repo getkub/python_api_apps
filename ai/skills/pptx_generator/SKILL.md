@@ -1,196 +1,231 @@
-# PPTX Generator with PptxGenJS
+---
+name: pptx
+description: "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \"deck,\" \"slides,\" \"presentation,\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill."
+license: Proprietary. LICENSE.txt has complete terms
+---
 
-## Overview
+# PPTX Skill
 
-This skill teaches how to create a PowerPoint presentation generator using PptxGenJS that converts YAML configuration files into styled PowerPoint presentations using templates.
+## Quick Reference
 
-## Learning Objectives
+| Task | Guide |
+|------|-------|
+| Read/analyze content | `python -m markitdown presentation.pptx` |
+| Edit or create from template | Read [editing.md](editing.md) |
+| Create from scratch | Read [pptxgenjs.md](pptxgenjs.md) |
 
-By the end of this skill, you will be able to:
+---
 
-1. **Set up a Node.js project** with PptxGenJS and related dependencies
-2. **Parse YAML configuration files** to extract presentation data
-3. **Load and use PPTX templates** without including existing slide content
-4. **Generate PowerPoint presentations** programmatically with consistent styling
-5. **Create a command-line interface** for the generator
-6. **Handle errors and edge cases** gracefully
+## Reading Content
 
-## Prerequisites
-
-- Basic knowledge of JavaScript/Node.js
-- Understanding of YAML format
-- Familiarity with command-line interfaces
-- Basic understanding of PowerPoint structure
-
-## Skill Components
-
-### 1. Project Setup and Dependencies
-
-**What you'll learn:**
-- Initialize a Node.js project with package.json
-- Install PptxGenJS and supporting libraries
-- Set up proper directory structure
-- Configure .gitignore for npm projects
-
-**Key concepts:**
-- npm package management
-- PptxGenJS library capabilities
-- Project organization best practices
-
-### 2. YAML Configuration Parsing
-
-**What you'll learn:**
-- Parse YAML files using js-yaml library
-- Validate configuration structure
-- Extract presentation metadata and slide content
-- Handle configuration errors gracefully
-
-**Key concepts:**
-- YAML syntax and structure
-- Data validation patterns
-- Error handling strategies
-
-### 3. Template-Based Generation
-
-**What you'll learn:**
-- Load PPTX templates using PptxGenJS
-- Extract template layouts and styles
-- Generate slides using template masters
-- Avoid including existing template content
-
-**Key concepts:**
-- PPTX template structure
-- Slide master vs. slide content
-- Template inheritance patterns
-
-### 4. Presentation Generation
-
-**What you'll learn:**
-- Create slides programmatically
-- Apply consistent styling from templates
-- Handle different slide layouts
-- Manage slide content formatting
-
-**Key concepts:**
-- PptxGenJS API usage
-- Slide layout management
-- Content formatting options
-
-### 5. Command-Line Interface
-
-**What you'll learn:**
-- Create CLI using commander.js
-- Handle command-line arguments and options
-- Support single file and batch processing
-- Provide helpful usage information
-
-**Key concepts:**
-- CLI design patterns
-- Argument parsing
-- User experience considerations
-
-### 6. Error Handling and Validation
-
-**What you'll learn:**
-- Validate input files and directories
-- Handle missing or invalid configurations
-- Provide meaningful error messages
-- Graceful degradation strategies
-
-**Key concepts:**
-- Input validation patterns
-- Error message design
-- User feedback mechanisms
-
-## Implementation Steps
-
-### Step 1: Project Initialization
-1. Create project directory structure
-2. Initialize npm project with package.json
-3. Install required dependencies
-4. Set up .gitignore file
-
-### Step 2: Core Module Development
-1. Create YAML parser module
-2. Implement PPTX generator module
-3. Build CLI interface module
-4. Add error handling utilities
-
-### Step 3: Integration and Testing
-1. Integrate all modules
-2. Test with sample YAML configurations
-3. Validate template loading
-4. Test CLI functionality
-
-### Step 4: Documentation and Polish
-1. Create usage documentation
-2. Add examples and templates
-3. Implement comprehensive error handling
-4. Optimize performance
-
-## Common Patterns
-
-### YAML Configuration Structure
-```yaml
-title: "Presentation Title"
-slides:
-  - title: "Slide Title"
-    content:
-      - "Bullet point 1"
-      - "Bullet point 2"
-```
-
-### PptxGenJS Template Usage
-```javascript
-const pptx = new PptxGenJS();
-pptx.layout = 'LAYOUT_16x9';
-pptx.defineLayout({ name: 'custom', width: 10, height: 7.5 });
-```
-
-### CLI Command Structure
 ```bash
-node src/index.js --input config.yml --output presentation.pptx --template template.pptx
+# Text extraction
+python -m markitdown presentation.pptx
+
+# Visual overview
+python scripts/thumbnail.py presentation.pptx
+
+# Raw XML
+python scripts/office/unpack.py presentation.pptx unpacked/
 ```
 
-## Best Practices
+---
 
-1. **Separation of Concerns**: Keep parsing, generation, and CLI logic separate
-2. **Error Handling**: Always validate inputs and provide clear error messages
-3. **Template Safety**: Never modify original template files
-4. **Performance**: Cache template loading when processing multiple files
-5. **User Experience**: Provide progress feedback for long operations
+## Editing Workflow
 
-## Troubleshooting
+**Read [editing.md](editing.md) for full details.**
 
-### Common Issues
+1. Analyze template with `thumbnail.py`
+2. Unpack → manipulate slides → edit content → clean → pack
 
-1. **Template Loading Failures**
-   - Check template file path and permissions
-   - Verify template format compatibility
-   - Ensure PptxGenJS version supports template features
+---
 
-2. **YAML Parsing Errors**
-   - Validate YAML syntax
-   - Check for required fields
-   - Handle empty or malformed files
+## Creating from Scratch
 
-3. **Output Generation Issues**
-   - Verify output directory permissions
-   - Check available disk space
-   - Ensure PptxGenJS can write files
+**Read [pptxgenjs.md](pptxgenjs.md) for full details.**
 
-## Next Steps
+Use when no template or reference presentation is available.
 
-After mastering this skill, you can:
-- Add support for more complex slide layouts
-- Implement custom styling options
-- Add support for images and media
-- Create web-based interfaces
-- Integrate with other document formats
+---
 
-## Resources
+## Design Ideas
 
-- [PptxGenJS Documentation](https://gitbrent.github.io/PptxGenJS/)
-- [js-yaml Documentation](https://github.com/nodeca/js-yaml)
-- [Commander.js Documentation](https://github.com/tj/commander.js)
-- [YAML Specification](https://yaml.org/spec/1.2/spec.html)
+**Don't create boring slides.** Plain bullets on a white background won't impress anyone. Consider ideas from this list for each slide.
+
+### Before Starting
+
+- **Pick a bold, content-informed color palette**: The palette should feel designed for THIS topic. If swapping your colors into a completely different presentation would still "work," you haven't made specific enough choices.
+- **Dominance over equality**: One color should dominate (60-70% visual weight), with 1-2 supporting tones and one sharp accent. Never give all colors equal weight.
+- **Dark/light contrast**: Dark backgrounds for title + conclusion slides, light for content ("sandwich" structure). Or commit to dark throughout for a premium feel.
+- **Commit to a visual motif**: Pick ONE distinctive element and repeat it — rounded image frames, icons in colored circles, thick single-side borders. Carry it across every slide.
+
+### Color Palettes
+
+Choose colors that match your topic — don't default to generic blue. Use these palettes as inspiration:
+
+| Theme | Primary | Secondary | Accent |
+|-------|---------|-----------|--------|
+| **Midnight Executive** | `1E2761` (navy) | `CADCFC` (ice blue) | `FFFFFF` (white) |
+| **Forest & Moss** | `2C5F2D` (forest) | `97BC62` (moss) | `F5F5F5` (cream) |
+| **Coral Energy** | `F96167` (coral) | `F9E795` (gold) | `2F3C7E` (navy) |
+| **Warm Terracotta** | `B85042` (terracotta) | `E7E8D1` (sand) | `A7BEAE` (sage) |
+| **Ocean Gradient** | `065A82` (deep blue) | `1C7293` (teal) | `21295C` (midnight) |
+| **Charcoal Minimal** | `36454F` (charcoal) | `F2F2F2` (off-white) | `212121` (black) |
+| **Teal Trust** | `028090` (teal) | `00A896` (seafoam) | `02C39A` (mint) |
+| **Berry & Cream** | `6D2E46` (berry) | `A26769` (dusty rose) | `ECE2D0` (cream) |
+| **Sage Calm** | `84B59F` (sage) | `69A297` (eucalyptus) | `50808E` (slate) |
+| **Cherry Bold** | `990011` (cherry) | `FCF6F5` (off-white) | `2F3C7E` (navy) |
+
+### For Each Slide
+
+**Every slide needs a visual element** — image, chart, icon, or shape. Text-only slides are forgettable.
+
+**Layout options:**
+- Two-column (text left, illustration on right)
+- Icon + text rows (icon in colored circle, bold header, description below)
+- 2x2 or 2x3 grid (image on one side, grid of content blocks on other)
+- Half-bleed image (full left or right side) with content overlay
+
+**Data display:**
+- Large stat callouts (big numbers 60-72pt with small labels below)
+- Comparison columns (before/after, pros/cons, side-by-side options)
+- Timeline or process flow (numbered steps, arrows)
+
+**Visual polish:**
+- Icons in small colored circles next to section headers
+- Italic accent text for key stats or taglines
+
+### Typography
+
+**Choose an interesting font pairing** — don't default to Arial. Pick a header font with personality and pair it with a clean body font.
+
+| Header Font | Body Font |
+|-------------|-----------|
+| Georgia | Calibri |
+| Arial Black | Arial |
+| Calibri | Calibri Light |
+| Cambria | Calibri |
+| Trebuchet MS | Calibri |
+| Impact | Arial |
+| Palatino | Garamond |
+| Consolas | Calibri |
+
+| Element | Size |
+|---------|------|
+| Slide title | 36-44pt bold |
+| Section header | 20-24pt bold |
+| Body text | 14-16pt |
+| Captions | 10-12pt muted |
+
+### Spacing
+
+- 0.5" minimum margins
+- 0.3-0.5" between content blocks
+- Leave breathing room—don't fill every inch
+
+### Avoid (Common Mistakes)
+
+- **Don't repeat the same layout** — vary columns, cards, and callouts across slides
+- **Don't center body text** — left-align paragraphs and lists; center only titles
+- **Don't skimp on size contrast** — titles need 36pt+ to stand out from 14-16pt body
+- **Don't default to blue** — pick colors that reflect the specific topic
+- **Don't mix spacing randomly** — choose 0.3" or 0.5" gaps and use consistently
+- **Don't style one slide and leave the rest plain** — commit fully or keep it simple throughout
+- **Don't create text-only slides** — add images, icons, charts, or visual elements; avoid plain title + bullets
+- **Don't forget text box padding** — when aligning lines or shapes with text edges, set `margin: 0` on the text box or offset the shape to account for padding
+- **Don't use low-contrast elements** — icons AND text need strong contrast against the background; avoid light text on light backgrounds or dark text on dark backgrounds
+- **NEVER use accent lines under titles** — these are a hallmark of AI-generated slides; use whitespace or background color instead
+
+---
+
+## QA (Required)
+
+**Assume there are problems. Your job is to find them.**
+
+Your first render is almost never correct. Approach QA as a bug hunt, not a confirmation step. If you found zero issues on first inspection, you weren't looking hard enough.
+
+### Content QA
+
+```bash
+python -m markitdown output.pptx
+```
+
+Check for missing content, typos, wrong order.
+
+**When using templates, check for leftover placeholder text:**
+
+```bash
+python -m markitdown output.pptx | grep -iE "\bx{3,}\b|lorem|ipsum|\bTODO|\[insert|this.*(page|slide).*layout"
+```
+
+If grep returns results, fix them before declaring success.
+
+### Visual QA
+
+**⚠️ USE SUBAGENTS** — even for 2-3 slides. You've been staring at the code and will see what you expect, not what's there. Subagents have fresh eyes.
+
+Convert slides to images (see [Converting to Images](#converting-to-images)), then use this prompt:
+
+```
+Visually inspect these slides. Assume there are issues — find them.
+
+Look for:
+- Overlapping elements (text through shapes, lines through words, stacked elements)
+- Text overflow or cut off at edges/box boundaries
+- Decorative lines positioned for single-line text but title wrapped to two lines
+- Source citations or footers colliding with content above
+- Elements too close (< 0.3" gaps) or cards/sections nearly touching
+- Uneven gaps (large empty area in one place, cramped in another)
+- Insufficient margin from slide edges (< 0.5")
+- Columns or similar elements not aligned consistently
+- Low-contrast text (e.g., light gray text on cream-colored background)
+- Low-contrast icons (e.g., dark icons on dark backgrounds without a contrasting circle)
+- Text boxes too narrow causing excessive wrapping
+- Leftover placeholder content
+
+For each slide, list issues or areas of concern, even if minor.
+
+Read and analyze these images — run `ls -1 "$PWD"/slide-*.jpg` and use the exact absolute paths it prints:
+1. <absolute-path>/slide-N.jpg — (Expected: [brief description])
+2. <absolute-path>/slide-N.jpg — (Expected: [brief description])
+...
+
+Report ALL issues found, including minor ones.
+```
+
+### Verification Loop
+
+1. Generate slides → Convert to images → Inspect
+2. **List issues found** (if none found, look again more critically)
+3. Fix issues
+4. **Re-verify affected slides** — one fix often creates another problem
+5. Repeat until a full pass reveals no new issues
+
+**Do not declare success until you've completed at least one fix-and-verify cycle.**
+
+---
+
+## Converting to Images
+
+Convert presentations to individual slide images for visual inspection:
+
+```bash
+python scripts/office/soffice.py --headless --convert-to pdf output.pptx
+rm -f slide-*.jpg
+pdftoppm -jpeg -r 150 output.pdf slide
+ls -1 "$PWD"/slide-*.jpg
+```
+
+**Pass the absolute paths printed above directly to the view tool.** The `rm` clears stale images from prior runs. `pdftoppm` zero-pads based on page count: `slide-1.jpg` for decks under 10 pages, `slide-01.jpg` for 10-99, `slide-001.jpg` for 100+.
+
+**After fixes, rerun all four commands above** — the PDF must be regenerated from the edited `.pptx` before `pdftoppm` can reflect your changes.
+
+---
+
+## Dependencies
+
+- `pip install "markitdown[pptx]"` - text extraction
+- `pip install Pillow` - thumbnail grids
+- `npm install -g pptxgenjs` - creating from scratch
+- LibreOffice (`soffice`) - PDF conversion (auto-configured for sandboxed environments via `scripts/office/soffice.py`)
+- Poppler (`pdftoppm`) - PDF to images

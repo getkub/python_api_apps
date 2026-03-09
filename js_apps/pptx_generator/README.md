@@ -196,7 +196,28 @@ This project is licensed under the MIT License.
 2. Create a feature branch
 3. Make your changes
 4. Add tests for your changes
-5. Submit a pull request
+5. Submit a pull request.
+
+## Packaging
+
+To create a distribution package that respects the .gitignore file:
+
+```bash
+# Create zip file excluding .gitignore patterns
+cd js_apps/pptx_generator && git archive --format=zip --output=../pptx_generator.zip HEAD
+
+# Alternative: Create tar.gz file
+cd js_apps/pptx_generator && git archive --format=tar.gz --output=../../pptx_generator.tar.gz HEAD
+```
+
+The git archive command automatically excludes files specified in .gitignore, including:
+- `node_modules/` - Dependencies
+- `outputs/` - Generated PPTX files
+- `.env` - Environment files
+- `.vscode/`, `.idea/` - IDE configurations
+- `.DS_Store`, `Thumbs.db` - OS files
+- `dist/`, `build/` - Build outputs
+- `*.log`, `*.tmp` - Temporary and log files
 
 ## Future Enhancements
 

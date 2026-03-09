@@ -1,5 +1,18 @@
-const yaml = require('js-yaml');
 const fs = require('fs');
+
+// Use bundled js-yaml from mermaid-cli when local node_modules unavailable
+function requireYaml() {
+  const candidates = [
+    'js-yaml',
+    '/home/claude/.npm-global/lib/node_modules/@mermaid-js/mermaid-cli/node_modules/js-yaml/index.js',
+  ];
+  for (const p of candidates) {
+    try { return require(p); } catch (_) {}
+  }
+  throw new Error('js-yaml not found. Run: npm install');
+}
+
+const yaml = requireYaml();
 
 /**
  * Parse YAML configuration file and validate structure

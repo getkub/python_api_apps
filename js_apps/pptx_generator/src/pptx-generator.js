@@ -1,144 +1,109 @@
-const PptxGenJS = require('pptxgenjs');
-const fs = require('fs');
-const path = require('path');
-
 /**
- * PPTX Generator class for creating PowerPoint presentations from YAML configuration
+ * pptx-generator.js
+ *
+ * Core PPTX generation engine.
+ * Delegates visual design to slide-designer.js, which follows the SKILL.md
+ * principles: varied layouts, topic-matched palette, no text-only slides.
  */
+
+const PptxGenJS = require('pptxgenjs');
+const fs        = require('fs');
+const path      = require('path');
+const { assignLayouts, renderTitleSlide, renderContentSlide } = require('./slide-designer');
+
 class PPTXGenerator {
   /**
-   * Create a new PPTXGenerator instance
    * @param {boolean} verbose - Enable verbose logging
    */
   constructor(verbose = false) {
     this.verbose = verbose;
-    this.log = (message) => {
-      if (this.verbose) {
-        console.log(`[INFO] ${message}`);
-      }
-    };
   }
-  
+
+  log(msg) {
+    if (this.verbose) console.log(`[INFO] ${msg}`);
+  }
+
   /**
-   * Generate a single PowerPoint presentation
-   * @param {Object} config - Parsed YAML configuration
-   * @param {string} outputPath - Output file path
-   * @param {string|null} templatePath - Path to PPTX template file
-   * @param {number} layout - Slide layout number
-   * @returns {Promise<string>} Path to generated presentation
+   * Generate a single styled presentation from a parsed YAML config.
+   *
+   * @param {Object}      config       - Parsed YAML config (title, slides[])
+   * @param {string}      outputPath   - Destination .pptx path
+   * @param {string|null} templatePath - Optional .pptx template (for colour themes only)
+   * @returns {Promise<string>}        - Resolved output path
    */
-  async generatePresentation(config, outputPath, templatePath = null, layout = 1) {
-    this.log(`Processing: ${path.basename(config.title || 'presentation')}`);
-    
-    // Create presentation
+  async generatePresentation(config, outputPath) {
+    this.log(`Generating: ${config.title}`);
+
     const pptx = new PptxGenJS();
-    
-    // Load template if provided
-    if (templatePath && fs.existsSync(templatePath)) {
-      this.log(`Loading template: ${templatePath}`);
-      await pptx.loadTemplate(templatePath);
-    }
-    
-    // Ensure output directory exists
-    const outputDir = path.dirname(outputPath);
-    if (!fs.existsSync(outputDir)) {
-      fs.mkdirSync(outputDir, { recursive: true });
-    }
-    
-    // Generate slides
-    for (const slideData of config.slides) {
+    pptx.layout = 'LAYOUT_16x9';
+    pptx.title  = config.title;
+
+    // ── Title slide ──────────────────────────────────────────────────────────
+    const titleSlide = pptx.addSlide();
+    renderTitleSlide(titleSlide, pptx, config);
+    this.log('  Rendered: title slide');
+
+    // ── Content slides ───────────────────────────────────────────────────────
+    const layouts = assignLayouts(config.slides);
+    this.log(`  Layout assignments: ${layouts.join(', ')}`);
+
+    config.slides.forEach((slideData, i) => {
       const slide = pptx.addSlide();
-      
-      // Set title
-      if (slideData.title) {
-        slide.addText(slideData.title, {
-          x: 0.5,
-          y: 0.5,
-          w: '90%',
-          h: 1,
-          fontSize: 28,
-          bold: true,
-          color: '363636'
-        });
-      }
-      
-      // Set content
-      if (slideData.content && slideData.content.length > 0) {
-        const contentText = slideData.content.join('\n');
-        slide.addText(contentText, {
-          x: 0.5,
-          y: 1.5,
-          w: '90%',
-          h: '80%',
-          fontSize: 18,
-          bullet: { type: 'bullet' },
-          color: '363636'
-        });
-      }
-    }
-    
-    // Save presentation
-    await pptx.writeFile(outputPath);
-    this.log(`Generated: ${outputPath}`);
-    
+      renderContentSlide(slide, pptx, slideData, layouts[i], i);
+      this.log(`  Rendered slide ${i + 1}: "${slideData.title}" → ${layouts[i]}`);
+    });
+
+    // ── Write file ───────────────────────────────────────────────────────────
+    const outputDir = path.dirname(outputPath);
+    if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
+
+    await pptx.writeFile({ fileName: outputPath });
+    this.log(`  Saved: ${outputPath}`);
     return outputPath;
   }
-  
+
   /**
-   * Generate PowerPoint presentations from all YAML files in a directory
-   * @param {string} inputDir - Input directory path
-   * @param {string} outputDir - Output directory path
-   * @param {string|null} templatePath - Path to PPTX template file
-   * @param {number} layout - Slide layout number
-   * @returns {Promise<string[]>} Array of generated presentation paths
+   * Batch-generate presentations from all YAML files in a directory.
+   *
+   * @param {string}      inputDir     - Directory containing .yml/.yaml files
+   * @param {string}      outputDir    - Directory for generated .pptx files
+   * @param {string|null} templatePath - Passed through (unused in designer mode)
+   * @returns {Promise<string[]>}      - Paths of generated files
    */
-  async generateBatch(inputDir, outputDir, templatePath = null, layout = 1) {
-    const inputPath = path.resolve(inputDir);
+  async generateBatch(inputDir, outputDir, templatePath = null) {
+    const inputPath  = path.resolve(inputDir);
     const outputPath = path.resolve(outputDir);
-    
-    if (!fs.existsSync(inputPath)) {
-      throw new Error(`Input directory not found: ${inputDir}`);
-    }
-    
-    if (!fs.existsSync(outputPath)) {
-      fs.mkdirSync(outputPath, { recursive: true });
-    }
-    
+
+    if (!fs.existsSync(inputPath)) throw new Error(`Input directory not found: ${inputDir}`);
+    if (!fs.existsSync(outputPath)) fs.mkdirSync(outputPath, { recursive: true });
+
     const yamlFiles = this.getYamlFiles(inputPath);
-    
     if (yamlFiles.length === 0) {
       this.log(`No YAML files found in ${inputDir}`);
       return [];
     }
-    
+
     const results = [];
-    
     for (const yamlFile of yamlFiles) {
       try {
-        const config = require('./config-parser').parseConfig(yamlFile);
-        const outputFile = path.join(outputPath, `${path.basename(yamlFile, '.yml')}.pptx`);
-        const result = await this.generatePresentation(config, outputFile, templatePath, layout);
+        const config     = require('./config-parser').parseConfig(yamlFile);
+        const outputFile = path.join(outputPath, `${path.basename(yamlFile, path.extname(yamlFile))}.pptx`);
+        const result     = await this.generatePresentation(config, outputFile, templatePath);
         results.push(result);
-      } catch (error) {
-        this.log(`Error processing ${yamlFile}: ${error.message}`);
-        continue;
+      } catch (err) {
+        this.log(`Error processing ${yamlFile}: ${err.message}`);
       }
     }
-    
-    this.log(`Batch processing complete. Generated ${results.length} files.`);
+
+    this.log(`Batch complete. Generated ${results.length} file(s).`);
     return results;
   }
-  
-  /**
-   * Get all YAML files from a directory
-   * @param {string} directory - Directory path
-   * @returns {string[]} Array of YAML file paths
-   */
+
+  /** Return all .yml / .yaml files in a directory. */
   getYamlFiles(directory) {
-    const files = fs.readdirSync(directory);
-    return files
-      .filter(file => file.endsWith('.yml') || file.endsWith('.yaml'))
-      .map(file => path.join(directory, file));
+    return fs.readdirSync(directory)
+      .filter(f => f.endsWith('.yml') || f.endsWith('.yaml'))
+      .map(f => path.join(directory, f));
   }
 }
 

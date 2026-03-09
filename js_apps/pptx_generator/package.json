@@ -1,28 +1,37 @@
 {
   "name": "pptx-generator",
   "version": "1.0.0",
-  "description": "Generate PowerPoint presentations from YAML configuration using PptxGenJS",
+  "description": "Generate PowerPoint presentations from YAML configuration using PptxGenJS - PPTX Skill Implementation",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/**/*.js"
   },
   "keywords": [
     "pptx",
     "powerpoint",
     "generator",
     "yaml",
-    "pptxgenjs"
+    "pptxgenjs",
+    "presentation",
+    "slides",
+    "deck"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "pptxgenjs": "^3.12.0",
     "js-yaml": "^4.1.0",
-    "commander": "^11.0.0"
+    "commander": "^11.0.0",
+    "sharp": "^0.33.5",
+    "react-icons": "^5.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.0"
+    "nodemon": "^3.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.3.3"
   }
 }

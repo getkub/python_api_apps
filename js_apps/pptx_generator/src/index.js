@@ -1,39 +1,52 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
+// Inline CLI parser — no external dependencies needed
+const program = (() => {
+  const args = process.argv.slice(2);
+  const opts = {};
+  for (let i = 0; i < args.length; i++) {
+    switch (args[i]) {
+      case '-i': case '--input':       opts.input      = args[++i]; break;
+      case '-o': case '--output':      opts.output     = args[++i]; break;
+      case '-t': case '--template':    opts.template   = args[++i]; break;
+      case '-d': case '--input-dir':   opts.inputDir   = args[++i]; break;
+      case '-D': case '--output-dir':  opts.outputDir  = args[++i]; break;
+      case '-l': case '--layout':      opts.layout     = parseInt(args[++i]); break;
+      case '-v': case '--verbose':     opts.verbose    = true; break;
+      case '--version':                console.log('1.0.0'); process.exit(0); break;
+      case '--help': case '-h':
+        console.log(`
+pptx-generator — Convert YAML to styled PowerPoint presentations
+
+Usage:
+  node src/index.js [options]
+
+Options:
+  -i, --input <file>       Input YAML file
+  -o, --output <file>      Output .pptx file
+  -t, --template <file>    PPTX template (optional)
+  -d, --input-dir <dir>    Batch: input directory
+  -D, --output-dir <dir>   Batch: output directory
+  -l, --layout <n>         Layout number (unused in designer mode)
+  -v, --verbose            Verbose output
+  --version                Show version
+  --help                   Show this help
+
+Examples:
+  node src/index.js -i inputs/github_wow.yml -o outputs/github_wow.pptx -v
+  node src/index.js -d inputs/ -D outputs/ -v
+        `);
+        process.exit(0);
+    }
+  }
+  return { opts: () => opts };
+})();
 const fs = require('fs');
 const path = require('path');
 
 // Import modules
 const { parseConfig } = require('./config-parser');
 const { PPTXGenerator } = require('./pptx-generator');
-
-// CLI setup
-program
-  .name('pptx-generator')
-  .description('Generate PowerPoint presentations from YAML configuration using PptxGenJS')
-  .version('1.0.0')
-  .option('-i, --input <file>', 'Input YAML configuration file')
-  .option('-o, --output <file>', 'Output PPTX file')
-  .option('-t, --template <file>', 'PPTX template file')
-  .option('-d, --input-dir <dir>', 'Input directory for batch processing')
-  .option('-D, --output-dir <dir>', 'Output directory for batch processing')
-  .option('-l, --layout <number>', 'Slide layout number (1-11)', parseInt)
-  .option('-v, --verbose', 'Enable verbose output')
-  .addHelpText('after', `
-Examples:
-  # Single file conversion with template
-  node src/index.js -i inputs/presentation.yml -o outputs/presentation.pptx -t templates/simple1.pptx
-
-  # Batch processing with template
-  node src/index.js -d inputs/ -D outputs/ -t templates/simple1.pptx
-
-  # Custom layout with template
-  node src/index.js -i inputs/presentation.yml -o outputs/presentation.pptx -t templates/simple1.pptx -l 2
-
-  # Verbose output
-  node src/index.js -i inputs/presentation.yml -o outputs/presentation.pptx -t templates/simple1.pptx -v
-`);
 
 // Main execution
 async function main() {
